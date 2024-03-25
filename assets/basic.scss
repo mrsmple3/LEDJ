@@ -1,0 +1,210 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+
+$orange: #ff2f22;
+$black: #121212;
+$service-card-gradient: linear-gradient(
+  258deg,
+  #ff4135 0%,
+  #ff4135 0%,
+  #bd4e62 47%,
+  #0f80e9 100%
+);
+@mixin container {
+  max-width: 1290px;
+  margin: 0 auto;
+}
+@mixin hover_btn($bg, $color) {
+  color: $color;
+  background: $bg;
+  transition: all 0.3s;
+  &:hover {
+    color: $bg;
+    background: $color;
+  }
+}
+
+body {
+  font-family: "Manrope", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background: $black;
+}
+// Header
+header {
+  position: fixed;
+  top: 33px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 1360px;
+  width: 100%;
+  background-color: white;
+  border-radius: 100px;
+  padding-top: 6px;
+  padding-bottom: 7px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .logo_img {
+    width: 63.75px;
+    height: 32px;
+  }
+  .logo_title {
+    width: 91.38px;
+    height: 18.53px;
+  }
+  nav {
+    text-align: center;
+    color: $black;
+    font-size: 18px;
+    font-family: Manrope;
+    font-weight: 400;
+    line-height: 17.82px;
+    word-wrap: break-word;
+    .navbar {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 35px;
+      .navbar_item {
+        text-wrap: nowrap;
+        transition: all 0.3s;
+        &:hover {
+          color: $orange;
+        }
+      }
+    }
+  }
+
+  .submit_btn {
+    border-radius: 100px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    gap: 34px;
+    display: inline-flex;
+    text-align: center;
+    font-size: 16px;
+    font-family: Manrope;
+    font-weight: 600;
+    line-height: 15.84px;
+    word-wrap: break-word;
+    padding: 19.5px 30px;
+    border: 1px solid $black;
+    @include hover_btn($black, white);
+  }
+}
+
+//Footer
+footer {
+  padding-top: 96px;
+  padding-bottom: 35px;
+  color: white;
+  overflow: hidden;
+  .footer_bg_big {
+    position: absolute;
+    top: 19.45px;
+    z-index: 0;
+  }
+  .footer_bg {
+    position: absolute;
+    right: 0;
+    top: -60%;
+    z-index: 0;
+  }
+  .footer {
+    @include container;
+  }
+  .footer_contact {
+    max-width: 635px;
+    h2 {
+      font-size: 45px;
+      font-family: Manrope;
+      font-weight: 500;
+      line-height: 58.5px;
+      word-wrap: break-word;
+      margin-bottom: 44px;
+    }
+    .sub {
+      font-size: 18px;
+      font-family: Manrope;
+      font-weight: 300;
+      line-height: 26.1px;
+      word-wrap: break-word;
+      span {
+        color: rgba(255, 255, 255, 0.5);
+      }
+      margin-bottom: 38px;
+    }
+    .phones {
+      font-size: 32px;
+      font-family: Manrope;
+      font-weight: 400;
+      line-height: 46.4px;
+      word-wrap: break-word;
+    }
+    .emal_adress {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 18px;
+      font-family: Manrope;
+      font-weight: 300;
+      line-height: 30.6px;
+      word-wrap: break-word;
+      strong {
+        font-weight: 600;
+      }
+    }
+  }
+  .footer_form {
+    max-width: 525px;
+    width: 100%;
+    h5 {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 18px;
+      font-family: Manrope;
+      font-weight: 700;
+      line-height: 26.1px;
+      word-wrap: break-word;
+      margin-bottom: 38px;
+    }
+    form {
+      input,
+      textarea {
+        resize: none;
+        background: transparent;
+        outline: none;
+        width: 100%;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+      }
+      .error_span {
+        font-size: 14px;
+      }
+    }
+    .form_btn {
+      @include hover_btn(#d4180c, white);
+      padding: 20px 57px;
+      border-radius: 100px;
+    }
+    .form_title {
+      max-width: 299.55px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+      font-family: Manrope;
+      font-weight: 400;
+      line-height: 21.14px;
+      word-wrap: break-word;
+    }
+  }
+  .copy_right {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    font-family: Manrope;
+    font-weight: 500;
+    line-height: 27.2px;
+    word-wrap: break-word;
+  }
+}

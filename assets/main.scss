@@ -1,0 +1,45 @@
+@import "./basic.scss";
+.wrapper {
+  .main {
+    padding-top: 379px;
+    padding-bottom: 111px;
+    .offer_block {
+      @include container;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 100px;
+      .content {
+        max-width: 655px;
+        .span_name {
+          font-size: 16px;
+          line-height: 130%;
+          opacity: 30%;
+          color: white;
+          font-weight: 700;
+          margin-bottom: 15px;
+        }
+        .offer_title {
+          color: white;
+          font-size: 60px;
+          line-height: 95%;
+          margin-bottom: 30px;
+          span {
+            color: $orange;
+          }
+        }
+        .sub {
+          color: white;
+          max-width: 526px;
+          font-size: 21px;
+          line-height: 130%;
+          opacity: 80%;
+          margin-bottom: 50px;
+        }
+        .popup_link {
+          
+        }
+      }
+    }
+  }
+}
