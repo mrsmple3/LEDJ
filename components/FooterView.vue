@@ -1,9 +1,9 @@
 <template>
   <footer class="relative">
-    <img src="/img/Main_page/footer_bg.png" alt="bg" class="footer_bg_big" />
-    <img src="/img/Main_page/footer_right_bg.png" alt="bg" class="footer_bg" />
     <div class="footer">
-      <div class="flex items-start justify-between gap-10 mb-[62px]">
+      <div
+        class="flex items-start justify-between flex-wrap gap-[74px] mb-[62px]"
+      >
         <div class="footer_contact flex flex-col items-start">
           <h2>Контакты</h2>
           <p class="sub">
@@ -13,16 +13,13 @@
             услугах и ценах.
           </p>
           <div class="phones flex flex-col items-start">
-            <span>+998 (97) 249-80-87</span>
-            <span>+998 (97) 784-81-22</span>
+            <span>{{ info.phone1 }}</span>
+            <span>{{ info.phone2 }}</span>
           </div>
           <br />
           <div class="emal_adress flex flex-col items-start">
-            <span><strong>E-mail: </strong>ledjmedia@mail.ru</span>
-            <span
-              ><strong>Адрес: </strong>Ташкент, Яшнабадский район, улица Боткина
-              3</span
-            >
+            <span><strong>E-mail: </strong>{{ info.email }}</span>
+            <span><strong>Адрес: </strong>{{ info.address }}</span>
           </div>
         </div>
         <div class="footer_form flex flex-col items-start mt-[9px]">
@@ -32,19 +29,25 @@
               <input
                 type="text"
                 class="name_input"
-                v-model="formName"
+                v-model="state.formName"
                 placeholder="Ваше имя"
               />
-              <span class="text-red-600 error_span">Введите Имя</span>
+              <span
+                v-if="v$.formName.$error || v$.formName.$dirty"
+                class="text-red-600 error_span"
+                >Введите Имя</span
+              >
             </div>
             <div class="w-full flex flex-col gap-1">
               <input
                 type="text"
                 class="phone_input"
-                v-model="formPhone"
+                v-model="state.formPhone"
                 placeholder="Номер телефона"
               />
-              <span class="text-red-600 error_span"
+              <span
+                v-if="v$.formPhone.$error || v$.formPhone.$dirty"
+                class="text-red-600 error_span"
                 >Введите Номер телефона</span
               >
             </div>
@@ -52,23 +55,25 @@
               <input
                 type="text"
                 class="company_input"
-                v-model="formCompany"
+                v-model="state.formCompany"
                 placeholder="Компания"
               />
-              <span class="text-red-600 error_span"
+              <!-- <span v-if="v$.formCompany.$error" class="text-red-600 error_span"
                 >Введите название компании</span
-              >
+              > -->
             </div>
             <div class="w-full flex flex-col gap-1 mb-[14px]">
               <textarea
                 type="text"
                 class="comment_input"
-                v-model="formComment"
+                v-model="state.formComment"
                 placeholder="Комментарий"
               ></textarea>
-              <span class="text-red-600 error_span">Введите комментарий</span>
+              <!-- <span v-if="v$.formComment.$error" class="text-red-600 error_span"
+                >Введите комментарий</span
+              > -->
             </div>
-            <div class="flex items-center justify-between gap-[22px]">
+            <div class="flex items-center justify-between flex-wrap gap-[22px]">
               <button
                 @click.prevent="submitHandler"
                 type="submit"
@@ -91,51 +96,61 @@
         frameborder="0"
         class="rounded-[30px] mb-[44px]"
       ></iframe>
-      <div class="w-full flex items-center justify-between">
-        <span class="copy_right">© LEDJ MEIDA 2024. Все права защищены.</span>
-        <div class="flex items-center gap-[14px]">
-          <NuxtLink to="t.me"
+      <div
+        class="w-full flex items-center justify-between max-md:flex-col max-md:item-center max-md:justify-start"
+      >
+        <span class="copy_right max-md:mb-[37px]"
+          >© LEDJ MEIDA 2024. Все права защищены.</span
+        >
+        <div class="flex items-center gap-[14px] max-md:mb-[65px]">
+          <a :href="info.telegram"
             ><img src="/img/icons/footer_media/1.svg" alt="telegram"
-          /></NuxtLink>
-          <NuxtLink to="instagram.com">
+          /></a>
+          <a :href="info.instagram">
             <img src="/img/icons/footer_media/2.svg" alt="instagram" />
-          </NuxtLink>
-          <NuxtLink to="facebook.com">
+          </a>
+          <a :href="info.facebook">
             <img src="/img/icons/footer_media/3.svg" alt="facebook" />
-          </NuxtLink>
+          </a>
         </div>
         <div class="flex items-center gap-[5px]">
           <img src="/img/icons/light.svg" alt="light" />
-          <NuxtLink to="icorp.com">Разработано iCORP</NuxtLink>
+          <a href="https://icorp.uz/">Разработано iCORP</a>
         </div>
       </div>
     </div>
+    <img src="/img/Main_page/footer_bg.png" alt="bg" class="footer_bg_big" />
+    <img src="/img/Main_page/footer_right_bg.png" alt="bg" class="footer_bg" />
   </footer>
 </template>
 
 <script>
+import { reactive, ref } from "vue";
 import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { minLength, required } from "@vuelidate/validators";
 export default {
   name: "footer",
   setup() {
-    const v$ = useVuelidate();
-    return { v$ };
+    const state = reactive({
+      formName: ref(""),
+      formPhone: ref("+998"),
+      formCompany: ref(""),
+      formComment: ref(""),
+    });
+    const rules = {
+      formName: { required },
+      formPhone: { required, minLength: minLength(11) },
+      formCompany: { required },
+      formComment: { required },
+    };
+
+    const v$ = useVuelidate(rules, state);
+
+    return { state, v$ };
   },
   data() {
     return {
-      formName: "",
-      formPhone: "+998",
-      formCompany: "",
-      formComment: "",
-    };
-  },
-  validations() {
-    return {
-      formName: { required },
-      formPhone: { required },
-      formCompany: { required },
-      formComment: { required },
+      info: {},
     };
   },
   methods: {
@@ -145,6 +160,17 @@ export default {
         return;
       }
     },
+  },
+  mounted() {
+    // info
+    fetch("http://ledjmedia.icorp.uz/wp-json/options/all")
+      .then((response) => response.json())
+      .then((data) => {
+        this.info = data;
+      })
+      .catch((error) => {
+        console.error("Ошибка при получении данных:", error);
+      });
   },
 };
 </script>
