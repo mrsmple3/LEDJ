@@ -10,7 +10,7 @@
 .wrapper {
   .main {
     position: relative;
-    padding-top: 379px;
+    padding-top: 350px;
     padding-bottom: 111px;
     overflow: hidden;
     @media screen and (max-width: 768px) {
@@ -155,6 +155,7 @@
     }
   }
   .white_block {
+    margin-top: -22px;
     background: white;
     border-radius: 30px;
     padding-top: 72px;
@@ -414,7 +415,7 @@
       padding-bottom: 77px;
     }
     .bg_animation {
-      animation: animation_bg 15s infinite ease-in-out;
+      animation: animation_bg 15s infinite linear;
     }
     @keyframes animation_bg {
       0% {
@@ -551,20 +552,19 @@
           display: none;
         }
         .img {
+          max-width: max-content;
           position: absolute;
-          top: -500%;
+          top: -730%;
+          left: -20%;
           object-fit: cover;
           object-position: center;
-          animation: rotate 10s infinite;
+          animation: rotate 20s infinite linear;
+          user-select: none;
         }
       }
       .client_slider_container {
         .trust_slider {
           overflow-y: visible;
-          .swiper-wrapper {
-            margin-top: 50px;
-            margin-bottom: 50px;
-          }
           .slider {
             background: white;
             width: 185px;
@@ -623,11 +623,14 @@
           display: none;
         }
         .img {
+          max-width: max-content;
           position: absolute;
-          top: -500%;
+          top: -730%;
+          left: -20%;
           object-fit: cover;
           object-position: center;
-          animation: rotate 10s infinite;
+          animation: rotate 20s infinite linear;
+          user-select: none;
         }
       }
       .reviews_slider_container {
@@ -654,10 +657,6 @@
         .reviews_slider {
           .swiper-pagination-bullet-active {
             background-color: $orange;
-          }
-          .swiper-wrapper {
-            margin-top: 50px;
-            margin-bottom: 50px;
           }
           .slide {
             background: white;

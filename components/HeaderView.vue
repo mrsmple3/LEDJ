@@ -3,19 +3,18 @@
     <div class="header max-md:py-[18px]">
       <NuxtLink to="/" class="logo flex items-center gap-[6.77px] w-max pl-6">
         <img src="/img/Header_LOGO.svg" alt="logo" class="logo_img" />
-        <img src="/img/Header_LOGO_Title.svg" alt="LEDJ" class="logo_title" />
       </NuxtLink>
       <nav>
         <ul class="navbar" ref="menu_w_sub">
           <NuxtLink
-            v-for="paht in pahts"
-            :to="paht.url"
+            v-for="path in paths"
+            :to="path.url"
             class="navbar_item"
-            :class="{ menu_with_sub: isService(paht.title) }"
-            @mouseenter="toggleSubMenuActive(paht.title, true)"
-            @mouseleave="toggleSubMenuActive(paht.title, false)"
+            :class="{ menu_with_sub: isService(path.title) }"
+            @mouseenter="toggleSubMenuActive(path.title, true, $event)"
+            @mouseleave="toggleSubMenuActive(path.title, false, $event)"
           >
-            {{ paht.title }}
+            {{ path.title }}
           </NuxtLink>
         </ul>
       </nav>
@@ -42,8 +41,8 @@
       class="submenu_content max-md:hidden"
       :class="{ active: isSubMenuActive }"
       ref="submenu"
-      @mouseenter="toggleSubMenuActive('Услуги', true)"
-      @mouseleave="toggleSubMenuActive('Услуги', false)"
+      @mouseenter="toggleSubMenuActive('Услуги', true, $event)"
+      @mouseleave="toggleSubMenuActive('Услуги', false, $event)"
     >
       <div class="submenu_wrapper">
         <div class="flex flex-col items-start">
@@ -74,8 +73,8 @@
       <div class="burger_menu_wrapper">
         <span class="menu_title">Меню</span>
         <ul class="navbar">
-          <NuxtLink v-for="paht in pahts" :to="paht.url" class="navbar_item">
-            {{ paht.title }}
+          <NuxtLink v-for="path in paths" :to="path.url" class="navbar_item">
+            {{ path.title }}
           </NuxtLink>
         </ul>
       </div>
@@ -83,61 +82,75 @@
   </header>
 </template>
 
-<script>
-export default {
-  name: "header",
-  data() {
-    return {
-      pahts: [],
-      isMenuActive: false,
-      isSubMenuActive: false,
-      isLeaveSubmenu: false,
-      timer: null,
-    };
-  },
-  mounted() {
-    fetch("http://ledjmedia.icorp.uz/wp-json/custom/menu/2")
-      .then((response) => response.json())
-      .then((data) => {
-        this.pahts = data;
-        // Дальнейшая обработка данных
-      })
-      .catch((error) => {
-        console.error("Ошибка при получении данных:", error);
-      });
-  },
-  methods: {
-    menuHandler() {
-      this.isMenuActive = !this.isMenuActive;
-      if (this.isMenuActive) {
-        document.body.style.overflow = "hidden"; // Устанавливаем overflow: hidden для body при активном меню
+<script setup>
+const { data: paths } = await useFetch(
+  "http://ledjmedia.icorp.uz/wp-json/custom/menu/2"
+);
+let isMenuActive = ref(false);
+let isSubMenuActive = ref(false);
+let isLeaveSubmenu = ref(false);
+let timer = ref(null);
+const menu_w_sub = ref(null);
+const submenu = ref(null);
+
+onMounted(() => {
+  menuHandler = () => {
+    isMenuActive.value = !isMenuActive.value;
+    if (isMenuActive.value) {
+      document.body.style.overflow = "hidden"; // Устанавливаем overflow: hidden для body при активном меню
+    } else {
+      document.body.style.overflow = ""; // Удаляем стили overflow у body при неактивном меню
+    }
+  };
+  toggleSubMenuActive = (title = "Услуги", isActive, event) => {
+    if (title === "Услуги") {
+      if (isActive) {
+        isSubMenuActive.value = true;
+        if (timer) clearTimeout(timer);
       } else {
-        document.body.style.overflow = ""; // Удаляем стили overflow у body при неактивном меню
-      }
-    },
-    isService(title) {
-      // Проверяет, является ли название "Услуги"
-      return title === "Услуги";
-    },
-    toggleSubMenuActive(title = "Услуги", isActive) {
-      if (title === "Услуги") {
-        if (isActive) {
-          this.isSubMenuActive = true;
-          if (this.timer) clearTimeout(this.timer);
-        } else {
-          // Проверяем, если курсор находится на подменю или на кнопке меню
-          if (
-            !this.$refs.menu_w_sub.children[1].contains(event.relatedTarget) &&
-            !this.$refs.submenu.contains(event.relatedTarget)
-          ) {
-            this.timer = setTimeout(() => {
-              this.isSubMenuActive = false;
-            }, 500);
-          }
+        // Проверяем, если курсор находится на подменю или на кнопке меню
+        if (
+          !menu_w_sub.value.contains(event.relatedTarget) &&
+          !submenu.value.contains(event.relatedTarget)
+        ) {
+          timer = setTimeout(() => {
+            isSubMenuActive.value = false;
+          }, 500);
         }
       }
-    },
-  },
+    }
+  };
+});
+const isService = (title) => {
+  // Проверяет, является ли название "Услуги"
+  return title === "Услуги";
+};
+let menuHandler = () => {
+  // isMenuActive = !isMenuActive;
+  // if (isMenuActive) {
+  //   document.body.style.overflow = "hidden"; // Устанавливаем overflow: hidden для body при активном меню
+  // } else {
+  //   document.body.style.overflow = ""; // Удаляем стили overflow у body при неактивном меню
+  // }
+};
+let toggleSubMenuActive = () => {
+  // if (title === "Услуги") {
+  //   console.log(!submenu.value.contains(event.relatedTarget));
+  //   if (isActive) {
+  //     isSubMenuActive = true;
+  //     if (timer) clearTimeout(timer);
+  //   } else {
+  //     // Проверяем, если курсор находится на подменю или на кнопке меню
+  //     if (
+  //       !menu_w_sub.value.contains(event.relatedTarget) &&
+  //       !submenu.value.contains(event.relatedTarget)
+  //     ) {
+  //       timer = setTimeout(() => {
+  //         isSubMenuActive = false;
+  //       }, 500);
+  //     }
+  //   }
+  // }
 };
 </script>
 

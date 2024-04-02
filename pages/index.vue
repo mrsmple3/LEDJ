@@ -3,12 +3,12 @@
     <main class="main">
       <img src="/img/Main_page/Main_page_bg.png" alt="" class="main_page_bg" />
       <img
-        src="/img/Main_page/Main_page_bg_ellips.png"
+        src="/img/Main_page/Main_page_bg_ellips.svg"
         alt=""
         class="absolute top-0 left-0 -z-[1]"
       />
       <img
-        src="/img/Main_page/Main_page_bg_ellips_blue.png"
+        src="/img/Main_page/Main_page_bg_ellips_blue.svg"
         alt=""
         class="w-[587px] h-[587px] absolute -bottom-[30%] right-0 -z-[1] max-md:bottom-0"
       />
@@ -179,7 +179,7 @@
                   class="objective-cover"
                 />
                 <span class="slider_title absolute bottom-[22px] right-[35px]"
-                  >• билбордах Реклама на
+                  >• Реклама на билбордах
                 </span>
               </swiper-slide>
             </swiper>
@@ -196,7 +196,7 @@
         <div class="services_cards mb-[39px]">
           <a
             v-for="card in card_infos"
-            :href="card.href"
+            :href="card.link"
             :key="card.id"
             class="card"
           >
@@ -205,13 +205,13 @@
             >
               <div class="flex flex-col items-start gap-[3px]">
                 <span class="card_span">Услуга</span>
-                <h4 class="card_title">{{ card.title }}</h4>
+                <h4 class="card_title">{{ card.title.rendered }}</h4>
               </div>
-              <img :src="card.svg" alt="" class="card_img" />
+              <img :src="card.preview" alt="" class="card_img" />
             </div>
             <div class="w-full flex items-center justify-between gap-[5px]">
-              <p v-html="card.description" class="card_sub"></p>
-              <a href class="card_btn">
+              <p v-html="card.excerpt.rendered" class="card_sub"></p>
+              <a href="" class="card_btn">
                 <svg
                   width="24"
                   height="12"
@@ -241,19 +241,19 @@
     </div>
     <div class="benefits">
       <img
-        src="/img/Main_page/benefit_top_left_bg.png"
+        src="/img/Main_page/benefit_top_left_bg.svg"
         alt=""
         class="absolute -top-[80%] left-0 -z-[1] max-md:-top-[55%]"
       />
       <img
-        src="/img/Main_page/benefit_top_rigth_bg.png"
+        src="/img/Main_page/benefit_top_rigth_bg.svg"
         alt=""
         class="absolute -top-[75%] right-0 -z-[1] max-md:top-0"
       />
       <img
         src="/img/Main_page/benefits_bg.png"
         alt=""
-        class="bg_animation absolute -bottom-[20%] left-0 -z-[1] opacity-10 max-md:top-[30%]"
+        class="bg_animation absolute -bottom-[20%] left-0 -z-[1] max-md:opacity-10 max-md:top-[30%]"
       />
       <img
         src="/img/Main_page/benefit_bottom_bg.png"
@@ -427,10 +427,10 @@
             class="trust_slider"
           >
             <swiper-slide v-for="c in clinets" :key="c.id" class="slider">
-              <img :src="c.img" alt="" class="objective-contain" />
+              <img :src="c.preview" alt="" class="objective-contain" />
             </swiper-slide>
             <swiper-slide v-for="c in clinets" :key="c.id" class="slider">
-              <img :src="c.img" alt="" class="objective-contain" />
+              <img :src="c.preview" alt="" class="objective-contain" />
             </swiper-slide>
           </swiper>
         </div>
@@ -476,32 +476,50 @@
             }"
             class="reviews_slider"
           >
-            <swiper-slide v-for="c in comments" :key="c" class="slide">
+            <swiper-slide v-for="c in comments" :key="c.id" class="slide">
               <div class="slide_content flex flex-col items-start">
                 <div
                   class="flex items-center justify-between gap-[26px] mb-[21px]"
                 >
-                  <img :src="c.img" alt="" class="name_img" />
+                  <img
+                    :src="c.preview"
+                    :alt="c.title.rendered"
+                    class="name_img"
+                  />
                   <div class="flex flex-col items-start gap-[5px]">
-                    <h6 v-html="c.name" class="name"></h6>
-                    <p v-html="c.name_description" class="name_description"></p>
+                    <h6 class="name">
+                      {{ c.title.rendered }}
+                    </h6>
+                    <p class="name_description">
+                      {{ c.excerpt.rendered }}
+                    </p>
                   </div>
                 </div>
-                <p v-html="c.description" class="description"></p>
+                <p class="description">
+                  {{ c.content.rendered }}
+                </p>
               </div>
             </swiper-slide>
-            <swiper-slide v-for="c in comments" :key="c" class="slide">
+            <swiper-slide v-for="c in comments" :key="c.id" class="slide">
               <div class="slide_content flex flex-col items-start">
                 <div
                   class="flex items-center justify-between gap-[26px] mb-[21px]"
                 >
-                  <img :src="c.img" alt="" class="name_img" />
+                  <img
+                    :src="c.preview"
+                    :alt="c.title.rendered"
+                    class="name_img"
+                  />
                   <div class="flex flex-col items-start gap-[5px]">
-                    <h6 v-html="c.name" class="name"></h6>
-                    <p v-html="c.name_description" class="name_description"></p>
+                    <h6 class="name">
+                      {{ c.title.rendered }}
+                    </h6>
+                    <p class="name_description">{{ c.excerpt.rendered }}</p>
                   </div>
                 </div>
-                <p v-html="c.description" class="description"></p>
+                <p class="description">
+                  {{ c.content.rendered }}
+                </p>
               </div>
             </swiper-slide>
           </swiper>
@@ -510,9 +528,7 @@
     </div>
   </div>
 </template>
-
-<script>
-// Import Swiper Vue.js components
+<script setup>
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { EffectFade, Navigation, Autoplay, Pagination } from "swiper/modules";
 // Import Swiper styles
@@ -520,137 +536,61 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
+
 definePageMeta({
   layout: "default",
 });
-// const { data } = await useFetch(
-//   "http://ledjmedia.icorp.uz/wp-json/wp/v2/slides"
-// );
-// onMounted(() => {
-//   console.log(data.value);
-// });
-
-export default {
-  components: {
-    // Swiper,
-    // SwiperSlide,
-  },
-  setup() {
-    const card_infos = ref();
-    const clinets = ref();
-    const comments = ref();
-    const bilboards = ref();
-
-    return {
-      pagination: {
-        clickable: true,
-        renderBullet: function (index, className) {
-          return (
-            '<span class="' + className + " slider_span " + '">' + "</span>"
-          );
-        },
-      },
-      pagination_comment: {
-        clickable: true,
-        renderBullet: function (index, className) {
-          return (
-            '<span class="' + className + " bg-red-600 " + '">' + "</span>"
-          );
-        },
-      },
-      navigation: {
-        nextEl: ".next_btn",
-        prevEl: ".prev_btn",
-      },
-      client_navigation: {
-        nextEl: ".client_btn-next",
-        prevEl: ".client_btn-prev",
-      },
-      reviews_navigation: {
-        nextEl: ".reviews_btn-next",
-        prevEl: ".reviews_btn-prev",
-      },
-      modules: [Navigation, Autoplay, Pagination, EffectFade],
-      card_infos,
-      clinets,
-      comments,
-      bilboards,
-    };
-  },
-  data() {
-    return {
-      mobileSize: true,
-    };
-  },
-  async mounted() {
-    // Услуги
-    await fetch("http://ledjmedia.icorp.uz/wp-json/wp/v2/services")
-      .then((response) => response.json())
-      .then((data) => {
-        const formattedData = data.map((item) => {
-          return {
-            id: item.id,
-            title: item.title.rendered,
-            description: item.excerpt.rendered,
-            icon: item.acf && item.acf.icon ? item.acf.icon : "", // Проверяем наличие поля icon в объекте acf
-            href: item.link,
-            svg: item.preview,
-          };
-        });
-        this.card_infos = formattedData;
-      })
-      .catch((error) => {
-        console.error("Ошибка при получении данных:", error);
-      });
-    // Отзывы
-    await fetch("http://ledjmedia.icorp.uz/wp-json/wp/v2/custom-comments").then(
-      (response) =>
-        response.json().then((data) => {
-          const formattedData = data.map((item) => {
-            return {
-              id: item.id,
-              name: item.title.rendered,
-              name_description: item.excerpt.rendered,
-              description: item.content.rendered,
-              img: item.preview,
-            };
-          });
-          this.comments = formattedData;
-        })
-    );
-    //clients
-    await fetch("http://ledjmedia.icorp.uz/wp-json/wp/v2/clients").then(
-      (response) =>
-        response.json().then((data) => {
-          const formattedData = data.map((item) => {
-            return {
-              id: item.id,
-              img: item.preview,
-            };
-          });
-          this.clinets = formattedData;
-        })
-    );
-    // bilboards
-    const { data } = await useAsyncData("data", () =>
-      $fetch("http://ledjmedia.icorp.uz/wp-json/wp/v2/slides")
-    );
-    this.bilboards = data.value;
-    console.log(this.bilboards);
-    if (process.client) {
-      // Проверяем, что код выполняется на клиенте
-      this.allowTouchMove = window.innerWidth < 768;
-      window.addEventListener("resize", this.handleResize);
-    }
-  },
-  methods: {
-    handleResize() {
-      this.allowTouchMove = window.innerWidth < 768;
-    },
+const { data: card_infos } = await useFetch(
+  "http://ledjmedia.icorp.uz/wp-json/wp/v2/services"
+);
+const { data: bilboards } = await useFetch(
+  "http://ledjmedia.icorp.uz/wp-json/wp/v2/slides"
+);
+const { data: comments } = await useFetch(
+  "http://ledjmedia.icorp.uz/wp-json/wp/v2/custom-comments"
+);
+const { data: clinets } = await useFetch(
+  "http://ledjmedia.icorp.uz/wp-json/wp/v2/clients"
+);
+const pagination = {
+  clickable: true,
+  renderBullet: function (index, className) {
+    return '<span class="' + className + " slider_span " + '">' + "</span>";
   },
 };
-</script>
+const pagination_comment = {
+  clickable: true,
+  renderBullet: function (index, className) {
+    return '<span class="' + className + " bg-red-600 " + '">' + "</span>";
+  },
+};
+const navigation = {
+  nextEl: ".next_btn",
+  prevEl: ".prev_btn",
+};
+const client_navigation = {
+  nextEl: ".client_btn-next",
+  prevEl: ".client_btn-prev",
+};
+const reviews_navigation = {
+  nextEl: ".reviews_btn-next",
+  prevEl: ".reviews_btn-prev",
+};
+const modules = [Navigation, Autoplay, Pagination, EffectFade];
+let mobileSize = ref(true);
+let allowTouchMove = ref(true);
 
+const handleResize = () => {
+  allowTouchMove = window.innerWidth < 768;
+};
+onMounted(() => {
+  if (process.client) {
+    // Проверяем, что код выполняется на клиенте
+    allowTouchMove = window.innerWidth < 768;
+    window.addEventListener("resize", handleResize);
+  }
+});
+</script>
 <style lang="scss">
 @import "../assets/main.scss";
 </style>

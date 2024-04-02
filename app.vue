@@ -4,7 +4,8 @@
   </NuxtLayout>
 </template>
 
-<script setup lang="ts">
+<script setup>
+onMounted(() => {});
 useSeoMeta({
   title: "Ledj Media",
   ogTitle: "Ledj Media",

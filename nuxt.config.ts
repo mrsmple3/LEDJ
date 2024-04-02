@@ -10,4 +10,8 @@ export default defineNuxtConfig({
     // styleLang: 'css',
     // modules: ['navigation', 'pagination'], // all modules are imported by default
   },
+  routeRules: {
+    // Generated at build time for SEO purpose
+    "/": { prerender: true },
+  },
 });

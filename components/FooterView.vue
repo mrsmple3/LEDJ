@@ -13,12 +13,14 @@
             услугах и ценах.
           </p>
           <div class="phones flex flex-col items-start">
-            <span>{{ info.phone1 }}</span>
-            <span>{{ info.phone2 }}</span>
+            <a :href="'tel:' + info.phone1">{{ info.phone1 }}</a>
+            <a :href="'te:' + info.phone2">{{ info.phone2 }}</a>
           </div>
           <br />
           <div class="emal_adress flex flex-col items-start">
-            <span><strong>E-mail: </strong>{{ info.email }}</span>
+            <a :href="'mailto:' + info.email"
+              ><strong>E-mail: </strong>{{ info.email }}</a
+            >
             <span><strong>Адрес: </strong>{{ info.address }}</span>
           </div>
         </div>
@@ -31,10 +33,9 @@
                 class="name_input"
                 v-model="state.formName"
                 placeholder="Ваше имя"
+                @change="v$.formName.$touch"
               />
-              <span
-                v-if="v$.formName.$error || v$.formName.$dirty"
-                class="text-red-600 error_span"
+              <span v-if="v$.formName.$error" class="text-red-600 error_span"
                 >Введите Имя</span
               >
             </div>
@@ -44,10 +45,9 @@
                 class="phone_input"
                 v-model="state.formPhone"
                 placeholder="Номер телефона"
+                @change="v$.formPhone.$touch"
               />
-              <span
-                v-if="v$.formPhone.$error || v$.formPhone.$dirty"
-                class="text-red-600 error_span"
+              <span v-if="v$.formPhone.$error" class="text-red-600 error_span"
                 >Введите Номер телефона</span
               >
             </div>
@@ -58,9 +58,6 @@
                 v-model="state.formCompany"
                 placeholder="Компания"
               />
-              <!-- <span v-if="v$.formCompany.$error" class="text-red-600 error_span"
-                >Введите название компании</span
-              > -->
             </div>
             <div class="w-full flex flex-col gap-1 mb-[14px]">
               <textarea
@@ -69,9 +66,6 @@
                 v-model="state.formComment"
                 placeholder="Комментарий"
               ></textarea>
-              <!-- <span v-if="v$.formComment.$error" class="text-red-600 error_span"
-                >Введите комментарий</span
-              > -->
             </div>
             <div class="flex items-center justify-between flex-wrap gap-[22px]">
               <button
@@ -102,14 +96,17 @@
         <span class="copy_right max-md:mb-[37px]"
           >© LEDJ MEIDA 2024. Все права защищены.</span
         >
-        <div class="flex items-center gap-[14px] max-md:mb-[65px]">
-          <a :href="info.telegram"
+        <div
+          v-if="info.telegram || info.instagram || info.facebook"
+          class="flex items-center gap-[14px] max-md:mb-[65px]"
+        >
+          <a v-if="info.telegram" :href="info.telegram"
             ><img src="/img/icons/footer_media/1.svg" alt="telegram"
           /></a>
-          <a :href="info.instagram">
+          <a v-if="info.instagram" :href="info.instagram">
             <img src="/img/icons/footer_media/2.svg" alt="instagram" />
           </a>
-          <a :href="info.facebook">
+          <a v-if="info.facebook" :href="info.facebook">
             <img src="/img/icons/footer_media/3.svg" alt="facebook" />
           </a>
         </div>
@@ -120,58 +117,38 @@
       </div>
     </div>
     <img src="/img/Main_page/footer_bg.png" alt="bg" class="footer_bg_big" />
-    <img src="/img/Main_page/footer_right_bg.png" alt="bg" class="footer_bg" />
+    <img src="/img/Main_page/footer_right_bg.svg" alt="bg" class="footer_bg" />
   </footer>
 </template>
 
-<script>
-import { reactive, ref } from "vue";
+<script setup>
+import { required, email, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
-import { minLength, required } from "@vuelidate/validators";
-export default {
-  name: "footer",
-  setup() {
-    const state = reactive({
-      formName: ref(""),
-      formPhone: ref("+998"),
-      formCompany: ref(""),
-      formComment: ref(""),
-    });
-    const rules = {
-      formName: { required },
-      formPhone: { required, minLength: minLength(11) },
-      formCompany: { required },
-      formComment: { required },
-    };
 
-    const v$ = useVuelidate(rules, state);
+const { data: info } = await useFetch(
+  "http://ledjmedia.icorp.uz/wp-json/options/all"
+);
+const state = reactive({
+  formName: "",
+  formPhone: "+998",
+  formCompany: "",
+  formComment: "",
+});
 
-    return { state, v$ };
-  },
-  data() {
-    return {
-      info: {},
-    };
-  },
-  methods: {
-    async submitHandler() {
-      if (this.v$.$invalid) {
-        this.v$.$touch();
-        return;
-      }
-    },
-  },
-  mounted() {
-    // info
-    fetch("http://ledjmedia.icorp.uz/wp-json/options/all")
-      .then((response) => response.json())
-      .then((data) => {
-        this.info = data;
-      })
-      .catch((error) => {
-        console.error("Ошибка при получении данных:", error);
-      });
-  },
+const rules = computed(() => {
+  return {
+    formName: { required },
+    formPhone: { required, minLength: minLength(11) },
+  };
+});
+const v$ = useVuelidate(rules, state);
+
+const submitHandler = () => {
+  v$.value.$validate();
+  console.log(info);
+  if (!v$.value.$error) {
+    //    Some code
+  }
 };
 </script>
 
