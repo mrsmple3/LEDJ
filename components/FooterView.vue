@@ -44,6 +44,8 @@
                 type="text"
                 class="phone_input"
                 v-model="state.formPhone"
+                v-maska
+                data-maska="+998 (##) ### ## ##"
                 placeholder="Номер телефона"
                 @change="v$.formPhone.$touch"
               />
@@ -98,7 +100,7 @@
         >
         <div
           v-if="info.telegram || info.instagram || info.facebook"
-          class="flex items-center gap-[14px] max-md:mb-[65px]"
+          class="social_media flex items-center gap-[14px] max-md:mb-[65px]"
         >
           <a v-if="info.telegram" :href="info.telegram"
             ><img src="/img/icons/footer_media/1.svg" alt="telegram"
@@ -124,13 +126,12 @@
 <script setup>
 import { required, email, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
-
 const { data: info } = await useFetch(
   "http://ledjmedia.icorp.uz/wp-json/options/all"
 );
 const state = reactive({
   formName: "",
-  formPhone: "+998",
+  formPhone: "",
   formCompany: "",
   formComment: "",
 });
@@ -145,7 +146,6 @@ const v$ = useVuelidate(rules, state);
 
 const submitHandler = () => {
   v$.value.$validate();
-  console.log(info);
   if (!v$.value.$error) {
     //    Some code
   }

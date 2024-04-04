@@ -61,30 +61,31 @@
             <span class="number">1</span>
           </swiper-slide>
           <swiper-slide class="slider_slide">
-            <h6 class="title">Индивидуальный подход</h6>
+            <h6 class="title">Экономия времени и ресурсов</h6>
             <img
-              src="/img/Main_page/slider/icon_1.svg"
+              src="/img/Main_page/slider/icon_2.svg"
               alt=""
               class="mb-[27px]"
             />
             <p class="sub">
-              Разрабатываем уникальные стратегии для каждого проекта, чтобы
-              обеспечить максимальную эффективность вашего присутствия в
-              медиа-пространстве.
+              Работая с рекламным агентством полного цикла, вы избегаете
+              необходимости взаимодействия с несколькими поставщиками услуг. Вы
+              получите все необходимые услуги «‎под одной крышей».
             </p>
             <span class="number">2</span>
           </swiper-slide>
           <swiper-slide class="slider_slide">
-            <h6 class="title">Индивидуальный подход</h6>
+            <h6 class="title">Комплексный анализ и оптимизация</h6>
             <img
-              src="/img/Main_page/slider/icon_1.svg"
+              src="/img/Main_page/slider/icon_3.svg"
               alt=""
               class="mb-[27px]"
             />
             <p class="sub">
-              Разрабатываем уникальные стратегии для каждого проекта, чтобы
-              обеспечить максимальную эффективность вашего присутствия в
-              медиа-пространстве.
+              Агентство, обладая широким спектром услуг, имеет возможность
+              проводить комплексный анализ рекламных кампаний и их
+              эффективности, что позволяет выявлять все сильные и слабые
+              стороны.
             </p>
             <span class="number">3</span>
           </swiper-slide>
@@ -119,12 +120,13 @@
               — это рекламное агентство полного цикла, которое нацелено на
               достижение результатов. Мы стремимся к тому, чтобы ваша инвестиция
               в рекламную кампанию начала приносить прибыль с самого начала
-              нашего сотрудничества и на всех последующих этапах. Создание
-              оригинальных идей для рекламы, разработка эффективных стратегий и
-              их реализация для успешного продвижения вашего бизнеса — наша
-              ключевая задача. Мы видим нашу миссию в том, чтобы помогать вам
-              выделиться на рынке, привлечь целевую аудиторию и достичь желаемых
-              результатов в вашем бизнесе.
+              нашего сотрудничества и на всех последующих этапах. <br /><br />
+              Создание оригинальных идей для рекламы, разработка эффективных
+              стратегий и их реализация для успешного продвижения вашего бизнеса
+              — наша ключевая задача. <br /><br />
+              Мы видим нашу миссию в том, чтобы помогать вам выделиться на
+              рынке, привлечь целевую аудиторию и достичь желаемых результатов в
+              вашем бизнесе.
             </p>
           </div>
         </div>
@@ -143,47 +145,6 @@
             </div>
             <img src="/img/Main_page/about_card_bg_bottom.png" alt="" />
           </div>
-          <div class="about_slider">
-            <img
-              src="/img/Main_page/LEDJ_logo_lider.svg"
-              alt=""
-              class="slider_logo"
-            />
-            <div class="slider_btns">
-              <button class="prev_btn">
-                <img src="/img/icons/arrow_left.svg" alt="" />
-              </button>
-              <button class="next_btn">
-                <img src="/img/icons/arrow_right.svg" alt="" />
-              </button>
-            </div>
-            <swiper
-              :spaceBetween="30"
-              :effect="'fade'"
-              :loop="true"
-              :navigation="navigation"
-              :autoplay="{
-                delay: 2000,
-                disableOnInteraction: false,
-              }"
-              :modules="modules"
-            >
-              <swiper-slide
-                v-for="slide in bilboards"
-                :key="slide.id"
-                class="images_slide"
-              >
-                <img
-                  :src="slide.preview"
-                  :alt="slide.slides"
-                  class="objective-cover"
-                />
-                <span class="slider_title absolute bottom-[22px] right-[35px]"
-                  >• Реклама на билбордах
-                </span>
-              </swiper-slide>
-            </swiper>
-          </div>
         </div>
       </div>
       <div class="services">
@@ -194,40 +155,7 @@
           <h2 class="title gap-[9px]"><span>02</span> Наши услуги</h2>
         </div>
         <div class="services_cards mb-[39px]">
-          <a
-            v-for="card in card_infos"
-            :href="card.link"
-            :key="card.id"
-            class="card"
-          >
-            <div
-              class="w-full flex items-center justify-between gap-[10px] mb-[36px]"
-            >
-              <div class="flex flex-col items-start gap-[3px]">
-                <span class="card_span">Услуга</span>
-                <h4 class="card_title">{{ card.title.rendered }}</h4>
-              </div>
-              <img :src="card.preview" alt="" class="card_img" />
-            </div>
-            <div class="w-full flex items-center justify-between gap-[5px]">
-              <p v-html="card.excerpt.rendered" class="card_sub"></p>
-              <a href="" class="card_btn">
-                <svg
-                  width="24"
-                  height="12"
-                  viewBox="0 0 24 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class=""
-                >
-                  <path
-                    d="M23.542 4.892L18.825 0.175003L18.118 0.882003L22.736 5.5H0V6.5H22.734L18.117 11.117L18.824 11.824L23.542 7.106C24.152 6.496 24.152 5.502 23.542 4.892Z"
-                    fill="red"
-                  />
-                </svg>
-              </a>
-            </div>
-          </a>
+          <ServiceCards :is-main-page="true" />
         </div>
         <div class="flex items-center justify-between">
           <span
@@ -385,56 +313,7 @@
       </div>
     </div>
     <div class="white_block_2">
-      <div class="trust">
-        <div
-          class="flex justify-between items-center mb-[53px] max-md:mb-[44px]"
-        >
-          <h3 class="trust_title">Нам доверяют</h3>
-          <h2 class="title gap-[9px]"><span>04</span> Наши клиенты</h2>
-        </div>
-        <div
-          class="flex items-center justify-between gap-[80px] mb-[20px] max-md:-mb-0"
-        >
-          <p class="trust_sub">
-            <span class="font-semibold text-[#FF2F22]"
-              >Обеспечиваем высочайший уровень</span
-            >
-            обслуживания и достижение оптимальных результатов для каждого нашего
-            клиента.
-          </p>
-          <div class="trust_bg_block">
-            <img src="/img/Main_page/trust_bg.png" alt="" class="img" />
-          </div>
-        </div>
-        <div class="client_slider_container relative">
-          <button class="client_btn-prev">
-            <img src="/img/icons/arrow_left_nobg.svg" alt="" />
-          </button>
-          <button class="client_btn-next">
-            <img src="/img/icons/arrow_right_nobg.svg" alt="" />
-          </button>
-          <swiper
-            :slidesPerView="mobileSize ? 'auto' : 6"
-            :spaceBetween="36"
-            :loop="true"
-            :reverseDirection="true"
-            :navigation="client_navigation"
-            :modules="modules"
-            :autoplay="{
-              delay: 2500,
-              disableOnInteraction: false,
-            }"
-            class="trust_slider"
-          >
-            <swiper-slide v-for="c in clinets" :key="c.id" class="slider">
-              <img :src="c.preview" alt="" class="objective-contain" />
-            </swiper-slide>
-            <swiper-slide v-for="c in clinets" :key="c.id" class="slider">
-              <img :src="c.preview" alt="" class="objective-contain" />
-            </swiper-slide>
-          </swiper>
-        </div>
-      </div>
+      <ClientsComponent />
       <div class="reviews">
         <div
           class="flex justify-between items-center mb-[56px] max-md:mb-[41px]"
@@ -456,7 +335,7 @@
             <img src="/img/Main_page/reviews_bg.png" alt="" class="img" />
           </div>
         </div>
-        <div class="reviews_slider_container relative">
+        <div v-if="isMounted" class="reviews_slider_container relative">
           <button class="reviews_btn-prev">
             <img src="/img/icons/arrow_left_nobg.svg" alt="" />
           </button>
@@ -490,14 +369,13 @@
                     <h6 class="name">
                       {{ c.title.rendered }}
                     </h6>
-                    <p class="name_description">
-                      {{ c.excerpt.rendered }}
-                    </p>
+                    <p
+                      v-thtml="c.excerpt.rendered"
+                      class="name_description"
+                    ></p>
                   </div>
                 </div>
-                <p class="description">
-                  {{ c.content.rendered }}
-                </p>
+                <p v-thtml="c.content.rendered" class="description"></p>
               </div>
             </swiper-slide>
             <swiper-slide v-for="c in comments" :key="c.id" class="slide">
@@ -514,12 +392,13 @@
                     <h6 class="name">
                       {{ c.title.rendered }}
                     </h6>
-                    <p class="name_description">{{ c.excerpt.rendered }}</p>
+                    <p
+                      v-thtml="c.excerpt.rendered"
+                      class="name_description"
+                    ></p>
                   </div>
                 </div>
-                <p class="description">
-                  {{ c.content.rendered }}
-                </p>
+                <p v-thtml="c.content.rendered" class="description"></p>
               </div>
             </swiper-slide>
           </swiper>
@@ -536,22 +415,18 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
-
 definePageMeta({
   layout: "default",
 });
-const { data: card_infos } = await useFetch(
-  "http://ledjmedia.icorp.uz/wp-json/wp/v2/services"
-);
+let isMounted = ref(false);
+
 const { data: bilboards } = await useFetch(
   "http://ledjmedia.icorp.uz/wp-json/wp/v2/slides"
 );
 const { data: comments } = await useFetch(
   "http://ledjmedia.icorp.uz/wp-json/wp/v2/custom-comments"
 );
-const { data: clinets } = await useFetch(
-  "http://ledjmedia.icorp.uz/wp-json/wp/v2/clients"
-);
+
 const pagination = {
   clickable: true,
   renderBullet: function (index, className) {
@@ -568,27 +443,28 @@ const navigation = {
   nextEl: ".next_btn",
   prevEl: ".prev_btn",
 };
-const client_navigation = {
-  nextEl: ".client_btn-next",
-  prevEl: ".client_btn-prev",
-};
+
 const reviews_navigation = {
   nextEl: ".reviews_btn-next",
   prevEl: ".reviews_btn-prev",
 };
 const modules = [Navigation, Autoplay, Pagination, EffectFade];
-let mobileSize = ref(true);
-let allowTouchMove = ref(true);
+let mobileSize = ref(false);
+let allowTouchMove = ref(false);
 
 const handleResize = () => {
-  allowTouchMove = window.innerWidth < 768;
+  mobileSize.value = window.innerWidth < 768;
+  allowTouchMove.value = window.innerWidth < 768;
 };
+
 onMounted(() => {
   if (process.client) {
     // Проверяем, что код выполняется на клиенте
-    allowTouchMove = window.innerWidth < 768;
+    allowTouchMove.value = window.innerWidth < 768;
+    mobileSize.value = window.innerWidth < 768;
     window.addEventListener("resize", handleResize);
   }
+  isMounted.value = true;
 });
 </script>
 <style lang="scss">

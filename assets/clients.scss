@@ -1,0 +1,88 @@
+@import "./basic.scss";
+
+.trust {
+  @include container;
+  margin-bottom: 94px;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 66px;
+  }
+  .trust_title {
+    color: #121212;
+    font-size: 34px;
+    font-weight: 500;
+    line-height: 44.2px;
+    word-wrap: break-word;
+    @media screen and (max-width: 768px) {
+      font-size: 25px;
+    }
+  }
+  .trust_sub {
+    max-width: 620px;
+    font-size: 18px;
+    line-height: 145%;
+    color: #292929;
+    @media screen and (max-width: 768px) {
+      max-width: 100%;
+    }
+  }
+  .trust_bg_block {
+    position: relative;
+    width: 588px;
+    height: 51px;
+    border-radius: 100px;
+    overflow: hidden;
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+    .img {
+      max-width: max-content;
+      position: absolute;
+      top: -730%;
+      left: -20%;
+      object-fit: cover;
+      object-position: center;
+      animation: rotate 20s infinite linear;
+      pointer-events: none;
+    }
+  }
+  .client_slider_container {
+    .trust_slider {
+      overflow-y: visible;
+      .slider {
+        background: white;
+        width: 185px;
+        height: 176px;
+        border: 1px solid #f3f3f3;
+        border-radius: 30px;
+        overflow: hidden;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
+        @media screen and (max-width: 768px) {
+          img {
+            max-width: 90px;
+          }
+        }
+      }
+    }
+    .client_btn-prev,
+    .client_btn-next {
+      position: absolute;
+      top: 50%;
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+      img {
+        width: 8.99px;
+        height: 19px;
+      }
+    }
+    .client_btn-prev {
+      left: -37px;
+    }
+    .client_btn-next {
+      right: -37px;
+    }
+  }
+}

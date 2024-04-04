@@ -1,13 +1,13 @@
 <template>
   <header class="z-10">
-    <div class="header max-md:py-[18px]">
+    <div class="header">
       <NuxtLink to="/" class="logo flex items-center gap-[6.77px] w-max pl-6">
         <img src="/img/Header_LOGO.svg" alt="logo" class="logo_img" />
       </NuxtLink>
       <nav>
         <ul class="navbar" ref="menu_w_sub">
           <NuxtLink
-            v-for="path in paths"
+            v-for="path in menu_list"
             :to="path.url"
             class="navbar_item"
             :class="{ menu_with_sub: isService(path.title) }"
@@ -18,10 +18,10 @@
           </NuxtLink>
         </ul>
       </nav>
-      <button class="submit_btn mr-2.5 max-md:!hidden">Оставить заявку</button>
+      <button class="submit_btn mr-2.5">Оставить заявку</button>
       <button
         @click="menuHandler"
-        class="w-[27px] h-[27px] relative mr-[19px] md:hidden"
+        class="menu_btn w-[27px] h-[27px] relative mr-[19px]"
       >
         <img
           src="/img/icons/burger_menu.svg"
@@ -50,20 +50,13 @@
             Выберите услугу <span class="text-red-600 text-[40px]">•</span>
           </h3>
           <ul class="list">
-            <li>Реклама на ТВ</li>
-            <li>Реклама в метро</li>
-            <li>Наружная реклама</li>
-            <li>Indoor реклама</li>
-            <li>SMM-продвижение</li>
-            <li>SEO-продвижение</li>
-            <li>Радио реклама</li>
-            <li>Создание сайтов</li>
-            <li>Рекламные видео-ролики</li>
-            <li>Реклама ЖД</li>
-            <li>Логотип + Брендбук</li>
-            <li>Контекстная реклама</li>
-            <li>Реклама в аэропорту Ташкента</li>
-            <li>Реклама на транспорте</li>
+            <NuxtLink
+              v-for="sub in sub_menu_list"
+              :to="sub.url"
+              class="sub_item"
+            >
+              {{ sub.title }}
+            </NuxtLink>
           </ul>
         </div>
         <img src="/img/Main_page/submenu_img.png" alt="" class="-z-[1]" />
@@ -73,8 +66,27 @@
       <div class="burger_menu_wrapper">
         <span class="menu_title">Меню</span>
         <ul class="navbar">
-          <NuxtLink v-for="path in paths" :to="path.url" class="navbar_item">
+          <NuxtLink
+            v-for="path in menu_list"
+            :to="path.url"
+            class="navbar_item"
+            :class="{ burgermenu_with_sub: isService(path.title) }"
+            @click="burgerSubmenuHandle(path.title, $event)"
+          >
             {{ path.title }}
+            <div
+              v-if="isService(path.title)"
+              class="burger_submenu"
+              ref="burger_submenu"
+              :class="{ active: isBSub }"
+            >
+              <NuxtLink
+                v-for="sub in sub_menu_list"
+                :to="sub.url"
+                class="burger_sub_item"
+                >{{ sub.title }}</NuxtLink
+              >
+            </div>
           </NuxtLink>
         </ul>
       </div>
@@ -86,13 +98,18 @@
 const { data: paths } = await useFetch(
   "http://ledjmedia.icorp.uz/wp-json/custom/menu/2"
 );
+const menu_list = paths.value.filter((item) => item.type_label === "Страница");
+const sub_menu_list = paths.value.filter(
+  (item) => item.menu_item_parent === "11"
+);
 let isMenuActive = ref(false);
 let isSubMenuActive = ref(false);
 let isLeaveSubmenu = ref(false);
 let timer = ref(null);
 const menu_w_sub = ref(null);
 const submenu = ref(null);
-
+const burger_submenu = ref(null);
+let isBSub = ref(false);
 onMounted(() => {
   menuHandler = () => {
     isMenuActive.value = !isMenuActive.value;
@@ -125,32 +142,14 @@ const isService = (title) => {
   // Проверяет, является ли название "Услуги"
   return title === "Услуги";
 };
-let menuHandler = () => {
-  // isMenuActive = !isMenuActive;
-  // if (isMenuActive) {
-  //   document.body.style.overflow = "hidden"; // Устанавливаем overflow: hidden для body при активном меню
-  // } else {
-  //   document.body.style.overflow = ""; // Удаляем стили overflow у body при неактивном меню
-  // }
-};
-let toggleSubMenuActive = () => {
-  // if (title === "Услуги") {
-  //   console.log(!submenu.value.contains(event.relatedTarget));
-  //   if (isActive) {
-  //     isSubMenuActive = true;
-  //     if (timer) clearTimeout(timer);
-  //   } else {
-  //     // Проверяем, если курсор находится на подменю или на кнопке меню
-  //     if (
-  //       !menu_w_sub.value.contains(event.relatedTarget) &&
-  //       !submenu.value.contains(event.relatedTarget)
-  //     ) {
-  //       timer = setTimeout(() => {
-  //         isSubMenuActive = false;
-  //       }, 500);
-  //     }
-  //   }
-  // }
+let menuHandler = () => {};
+let toggleSubMenuActive = () => {};
+
+const burgerSubmenuHandle = (title = "Услуги", event) => {
+  if (title === "Услуги") {
+    event.preventDefault();
+    isBSub.value = !isBSub.value;
+  }
 };
 </script>
 

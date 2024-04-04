@@ -12,7 +12,9 @@ $service-card-gradient: linear-gradient(
 @mixin container {
   max-width: 1290px;
   margin: 0 auto;
-  @media screen and (max-width: 1280px) {
+  @media screen and (max-width: 1315px) {
+    max-width: 100%;
+    width: 100%;
     padding-left: 20px;
     padding-right: 20px;
     overflow: hidden;
@@ -37,8 +39,18 @@ $service-card-gradient: linear-gradient(
   span {
     font-size: 40px;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1216px) {
     display: none;
+  }
+}
+@mixin page_title {
+  font-size: 40px;
+  color: $black;
+  line-height: 130%;
+  font-weight: 500;
+  margin-bottom: 42px;
+  @media screen and (max-width: 768px) {
+    font-size: 25px;
   }
 }
 body {
@@ -111,7 +123,7 @@ header {
         align-items: flex-start;
         gap: 15px;
         flex-wrap: wrap;
-        li {
+        .sub_item {
           color: #3a3a3a;
           font-size: 18px;
           line-height: 130%;
@@ -176,6 +188,8 @@ header {
       max-width: 342px;
       padding-top: 52px;
       padding-bottom: 57px;
+      padding-left: 10px;
+      padding-right: 10px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -193,6 +207,28 @@ header {
         align-items: flex-start;
         justify-content: flex-start;
         gap: 25px;
+        .burgermenu_with_sub {
+          position: relative;
+          .burger_submenu {
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 18px;
+            transform: translateX(4%);
+            height: 0px;
+            transition: all 500ms;
+            &.active {
+              height: 367px;
+              margin-top: 20px;
+            }
+            .burger_sub_item {
+              color: #292929 !important;
+              font-size: 19px;
+              transition: all 0.3s;
+            }
+          }
+        }
         .navbar_item {
           color: #292929;
           font-size: 23px;
@@ -201,8 +237,10 @@ header {
           line-height: 22.77px;
           word-wrap: break-word;
           transition: all 0.3s;
-          &:hover {
-            color: $orange;
+          @media screen and (min-width: 768px) {
+            &:hover {
+              color: $orange;
+            }
           }
         }
       }
@@ -213,10 +251,14 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media screen and (max-width: 1050px) {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
   .logo_img {
     width: 163.75px;
     height: 32px;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1028px) {
       width: 161.39px;
       height: 32px;
     }
@@ -224,7 +266,7 @@ header {
   .logo_title {
     width: 91.38px;
     height: 18.53px;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1028px) {
       width: 88px;
       height: 18.53px;
     }
@@ -237,12 +279,18 @@ header {
     font-weight: 400;
     line-height: 17.82px;
     word-wrap: break-word;
+    @media screen and (max-width: 1200px) {
+      font-size: 16px;
+    }
     .navbar {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: flex-start;
       gap: 35px;
+      @media screen and (max-width: 1200px) {
+        gap: 20px;
+      }
       .navbar_item {
         text-wrap: nowrap;
         transition: all 0.3s;
@@ -251,12 +299,15 @@ header {
         }
       }
     }
-
-    @media screen and (max-width: 1028px) {
+    @media screen and (max-width: 1050px) {
       display: none;
     }
   }
-
+  .menu_btn {
+    @media screen and (min-width: 1050px) {
+      display: none;
+    }
+  }
   .submit_btn {
     border-radius: 100px;
     overflow: hidden;
@@ -273,16 +324,20 @@ header {
     padding: 19.5px 30px;
     border: 1px solid $black;
     @include hover_btn($black, white);
+    @media screen and (max-width: 1050px) {
+      display: none;
+    }
   }
 }
 
 //Footer
 footer {
+  margin-top: -20px;
   padding-top: 96px;
   padding-bottom: 35px;
   color: white;
   overflow: hidden;
-  z-index: 5;
+  z-index: 4;
   @media screen and (max-width: 768px) {
     padding-top: 80px;
     padding-bottom: 34px;
@@ -387,6 +442,13 @@ footer {
       font-weight: 400;
       line-height: 21.14px;
       word-wrap: break-word;
+    }
+  }
+  .social_media {
+    @media screen and (min-width: 768px) {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
   .copy_right {
