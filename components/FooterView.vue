@@ -1,5 +1,5 @@
 <template>
-  <footer class="relative">
+  <footer id="contacts" class="relative">
     <div class="footer">
       <div
         class="flex items-start justify-between flex-wrap gap-[74px] mb-[62px]"

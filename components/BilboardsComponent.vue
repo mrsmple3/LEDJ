@@ -1,5 +1,5 @@
 <template>
-  <div class="about_slider">
+  <div v-show="isMounted" class="about_slider">
     <img src="/img/Main_page/LEDJ_logo_lider.svg" alt="" class="slider_logo" />
     <div class="slider_btns">
       <button class="prev_btn">
@@ -10,7 +10,6 @@
       </button>
     </div>
     <swiper
-      v-if="isMounted"
       :spaceBetween="30"
       :effect="'fade'"
       :loop="true"
@@ -36,14 +35,27 @@
 </template>
 
 <script setup>
-import { EffectFade, Navigation, Autoplay, Pagination } from "swiper/modules";
+import { EffectFade, Navigation, Autoplay } from "swiper/modules";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
-const modules = [Navigation, Autoplay, Pagination, EffectFade];
+const websiteStore = useWebsiteStore();
+const bilboards = websiteStore.bilboards.data;
+const navigation = {
+  nextEl: ".next_btn",
+  prevEl: ".prev_btn",
+};
+const modules = [Navigation, Autoplay, EffectFade];
+let isMounted = ref(false);
+
+onMounted(() => {
+  isMounted.value = true;
+});
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import "~/assets/bilboards.scss";
+</style>

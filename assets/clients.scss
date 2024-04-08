@@ -85,4 +85,7 @@
       right: -37px;
     }
   }
+  .title {
+    @include number_title($black);
+  }
 }

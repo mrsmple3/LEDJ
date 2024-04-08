@@ -8,4 +8,7 @@ export default defineNuxtConfig({
     // Generated at build time for SEO purpose
     "/": { prerender: true },
   },
+  pinia: {
+    storesDirs: ["./stores/**"],
+  },
 });

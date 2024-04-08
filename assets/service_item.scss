@@ -9,12 +9,16 @@
     padding-bottom: 64px;
     .service_content {
       @include container;
+      margin-bottom: 68px;
+      @media screen and (max-width: 1028px) {
+        margin-bottom: 42px;
+      }
       .labels {
         color: #454545;
         opacity: 70%;
         font-size: 16px;
         line-height: 20px;
-        margin-bottom: 13px;
+        margin-bottom: 27px;
         .route_label {
           display: flex;
           align-items: center;
@@ -36,6 +40,271 @@
       .service_title {
         @include page_title;
       }
+      .second {
+        .description {
+          max-width: 940px;
+          color: #797979;
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 26.1px;
+          word-wrap: break-word;
+          @media screen and (max-width: 1028px) {
+            max-width: 100%;
+          }
+        }
+        .popup {
+          max-width: 307px;
+          width: 100%;
+          border: 1px solid $orange;
+          padding: 30px 0 12px 0;
+          border-radius: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          @media screen and (max-width: 768px) {
+            max-width: 100%;
+          }
+          .popup_block {
+            .title {
+              font-size: 18px;
+              line-height: 130%;
+              color: $orange;
+              font-weight: 600;
+              padding-left: 24px;
+              padding-right: 10px;
+              margin-bottom: 26px;
+            }
+            .sub {
+              font-size: 15px;
+              color: #808080;
+              line-height: 130%;
+              padding-left: 24px;
+              padding-right: 42px;
+              margin-bottom: 34px;
+            }
+            .btn {
+              font-size: 18px;
+              line-height: 99%;
+              color: white;
+              font-weight: 500;
+              padding-left: 12px;
+              padding-right: 14px;
+              .btn_content {
+                height: 57px;
+                width: 281px;
+                display: flex;
+                align-items: center;
+                gap: 34px;
+                padding-left: 47px;
+                background: $service-card-gradient;
+                border-radius: 100px;
+              }
+            }
+          }
+        }
+      }
     }
+    .third {
+      width: 100%;
+      background: #f8f8f8;
+      overflow: hidden;
+      margin-bottom: 55px;
+      .content {
+        @include container;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+        .span {
+          color: #a1a1a1;
+          font-size: 16px;
+          font-family: Manrope;
+          font-weight: 400;
+          line-height: 22.4px;
+          word-wrap: break-word;
+        }
+        .title {
+          color: #ff2f22;
+          font-size: 21px;
+          font-family: Manrope;
+          font-weight: 600;
+          line-height: 29.4px;
+          word-wrap: break-word;
+          @media screen and (max-width: 610px) {
+            max-width: 182px;
+          }
+        }
+        .img {
+          position: absolute;
+          right: 0;
+          @media screen and (max-width: 768px) {
+            max-width: 250px;
+            top: 40px;
+          }
+        }
+      }
+    }
+  }
+  .service_cards {
+    @include container;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 22.5px;
+    margin-bottom: 64px;
+    overflow: visible;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
+    .service_card {
+      background: white;
+      width: 32%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      box-shadow: 0px 4px 70px rgba(112.62, 112.62, 112.62, 0.08);
+      border-radius: 30px;
+      @media screen and (max-width: 1165px) {
+        width: 30%;
+      }
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
+      .card_content {
+        max-width: 334px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 40px;
+        padding-top: 35px;
+        padding-bottom: 36px;
+        @media screen and (max-width: 1165px) {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+        .title {
+          color: #292929;
+          font-size: 18px;
+          font-family: Manrope;
+          font-weight: 600;
+          line-height: 26.1px;
+          word-wrap: break-word;
+        }
+        .sub {
+          color: #7d7d7d;
+          font-size: 15px;
+          font-family: Manrope;
+          font-weight: 400;
+          line-height: 21.75px;
+          word-wrap: break-word;
+        }
+      }
+    }
+  }
+  .consalting {
+    @include container;
+    background: url(../public/img/service/Consalting_Bg.png);
+    background-size: cover;
+    background-position: center;
+    padding: 33px 43px 34px 32px;
+    border-radius: 30px;
+    margin-bottom: 84px;
+    @media screen and (max-width: 805px) {
+      margin-bottom: 60px;
+    }
+    .consalting_content {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 50px;
+      @media screen and (max-width: 805px) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .white_span {
+        padding: 22px 12px 12px 28px;
+        background: white;
+        border-radius: 20px;
+        display: flex;
+        align-items: flex-end;
+        gap: 100px;
+        @media screen and (max-width: 805px) {
+          justify-content: space-between;
+          width: 100%;
+        }
+        .title {
+          text-align: start;
+          max-width: 128px;
+          color: #686868;
+          font-size: 19px;
+          font-family: Manrope;
+          font-weight: 500;
+          line-height: 24.13px;
+          word-wrap: break-word;
+        }
+        .span {
+          color: #a1a1a1;
+          font-size: 16px;
+          font-family: Manrope;
+          font-weight: 400;
+          line-height: 22.4px;
+          word-wrap: break-word;
+        }
+      }
+      .right_side {
+        @media screen and (max-width: 805px) {
+          align-items: flex-start;
+          width: 100%;
+        }
+        .link_item {
+          padding: 16.5px 28.5px;
+          background: white;
+          border-radius: 100px;
+          text-align: center;
+          color: #5e5e5e;
+          font-size: 16px;
+          font-family: Manrope;
+          font-weight: 600;
+          line-height: 15.84px;
+          word-wrap: break-word;
+          @media screen and (max-width: 805px) {
+            width: 48%;
+          }
+        }
+      }
+    }
+  }
+  .advertisement {
+    max-width: 439px;
+    width: 100%;
+    background: linear-gradient(231deg, #f83229 0%, #495cd0 100%);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .content {
+      padding: 48px 33px 0 42px;
+      .title {
+        color: rgba(255, 255, 255, 0.65);
+        font-size: 18px;
+        font-family: Manrope;
+        font-weight: 400;
+        line-height: 20.52px;
+        word-wrap: break-word;
+      }
+      .sub {
+        color: white;
+        font-size: 20px;
+        font-family: Manrope;
+        line-height: 22.8px;
+        word-wrap: break-word;
+      }
+    }
+  }
+  .bilboards {
+    @include container;
   }
 }

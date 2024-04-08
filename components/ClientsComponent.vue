@@ -5,7 +5,7 @@
       <h2 class="title gap-[9px]"><span>04</span> Наши клиенты</h2>
     </div>
     <div
-      class="flex items-center justify-between gap-[80px] mb-[71px] max-md:-mb-0"
+      class="flex items-center justify-between gap-[80px] mb-[71px] max-md:mb-[30px]"
     >
       <p class="trust_sub">
         <span class="font-semibold text-[#FF2F22]"
@@ -50,7 +50,6 @@
 </template>
 
 <script setup>
-import { Swiper, SwiperSlide } from "swiper/vue";
 import { EffectFade, Navigation, Autoplay } from "swiper/modules";
 // Import Swiper styles
 import "swiper/css";
@@ -63,9 +62,8 @@ const client_navigation = {
   nextEl: ".client_btn-next",
   prevEl: ".client_btn-prev",
 };
-const { data: clinets } = await useFetch(
-  "http://ledjmedia.icorp.uz/wp-json/wp/v2/clients"
-);
+const websiteStore = useWebsiteStore();
+const clinets = websiteStore.clients.data;
 const modules = [Navigation, Autoplay, EffectFade];
 let mobileSize = ref(false);
 let allowTouchMove = ref(false);

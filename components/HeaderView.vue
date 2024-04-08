@@ -6,15 +6,31 @@
       </NuxtLink>
       <nav>
         <ul class="navbar" ref="menu_w_sub">
+          <NuxtLink :to="{ path: '/', hash: '#main' }" class="navbar_item">
+            Главная
+          </NuxtLink>
           <NuxtLink
-            v-for="path in menu_list"
-            :to="path.url"
-            class="navbar_item"
-            :class="{ menu_with_sub: isService(path.title) }"
-            @mouseenter="toggleSubMenuActive(path.title, true, $event)"
-            @mouseleave="toggleSubMenuActive(path.title, false, $event)"
+            to="/services"
+            class="navbar_item menu_with_sub"
+            @mouseenter="toggleSubMenuActive(true, $event)"
+            @mouseleave="toggleSubMenuActive(false, $event)"
           >
-            {{ path.title }}
+            Услуги
+          </NuxtLink>
+          <NuxtLink :to="{ path: '/', hash: '#about' }" class="navbar_item">
+            Об агенстве
+          </NuxtLink>
+          <NuxtLink :to="{ path: '/', hash: '#benefits' }" class="navbar_item">
+            Преимущества
+          </NuxtLink>
+          <NuxtLink :to="{ path: '/', hash: '#partners' }" class="navbar_item">
+            Партнеры
+          </NuxtLink>
+          <NuxtLink :to="{ path: '/', hash: '#reviews' }" class="navbar_item">
+            Отзывы
+          </NuxtLink>
+          <NuxtLink :to="{ path: '/', hash: '#contacts' }" class="navbar_item">
+            Контакты
           </NuxtLink>
         </ul>
       </nav>
@@ -41,8 +57,8 @@
       class="submenu_content max-md:hidden"
       :class="{ active: isSubMenuActive }"
       ref="submenu"
-      @mouseenter="toggleSubMenuActive('Услуги', true, $event)"
-      @mouseleave="toggleSubMenuActive('Услуги', false, $event)"
+      @mouseenter="toggleSubMenuActive(true, $event)"
+      @mouseleave="toggleSubMenuActive(false, $event)"
     >
       <div class="submenu_wrapper">
         <div class="flex flex-col items-start">
@@ -51,8 +67,8 @@
           </h3>
           <ul class="list">
             <NuxtLink
-              v-for="sub in sub_menu_list"
-              :to="sub.url"
+              v-for="sub in websiteStore.menu.sub"
+              :to="'services/' + sub.object_id"
               class="sub_item"
             >
               {{ sub.title }}
@@ -66,27 +82,53 @@
       <div class="burger_menu_wrapper">
         <span class="menu_title">Меню</span>
         <ul class="navbar">
-          <NuxtLink
-            v-for="path in menu_list"
-            :to="path.url"
-            class="navbar_item"
-            :class="{ burgermenu_with_sub: isService(path.title) }"
-            @click="burgerSubmenuHandle(path.title, $event)"
+          <NuxtLink :to="{ path: '/', hash: '#main' }" class="burger_sub_item">
+            Главная
+          </NuxtLink>
+          <li
+            class="burger_sub_item burgermenu_with_sub"
+            @click="burgerSubmenuHandle($event)"
           >
-            {{ path.title }}
+            Услуги
             <div
-              v-if="isService(path.title)"
               class="burger_submenu"
               ref="burger_submenu"
               :class="{ active: isBSub }"
             >
               <NuxtLink
-                v-for="sub in sub_menu_list"
-                :to="sub.url"
+                v-for="sub in websiteStore.menu.sub"
+                :to="'services/' + sub.object_id"
                 class="burger_sub_item"
                 >{{ sub.title }}</NuxtLink
               >
             </div>
+          </li>
+          <NuxtLink :to="{ path: '/', hash: '#about' }" class="burger_sub_item">
+            Об агенстве
+          </NuxtLink>
+          <NuxtLink
+            :to="{ path: '/', hash: '#benefits' }"
+            class="burger_sub_item"
+          >
+            Преимущества
+          </NuxtLink>
+          <NuxtLink
+            :to="{ path: '/', hash: '#partners' }"
+            class="burger_sub_item"
+          >
+            Партнеры
+          </NuxtLink>
+          <NuxtLink
+            :to="{ path: '/', hash: '#reviews' }"
+            class="burger_sub_item"
+          >
+            Отзывы
+          </NuxtLink>
+          <NuxtLink
+            :to="{ path: '/', hash: '#contacts' }"
+            class="burger_sub_item"
+          >
+            Контакты
           </NuxtLink>
         </ul>
       </div>
@@ -98,18 +140,17 @@
 const { data: paths } = await useFetch(
   "http://ledjmedia.icorp.uz/wp-json/custom/menu/2"
 );
-const menu_list = paths.value.filter((item) => item.type_label === "Страница");
-const sub_menu_list = paths.value.filter(
-  (item) => item.menu_item_parent === "11"
-);
+const websiteStore = useWebsiteStore();
+websiteStore.setMenu(paths.value);
+
 let isMenuActive = ref(false);
 let isSubMenuActive = ref(false);
-let isLeaveSubmenu = ref(false);
 let timer = ref(null);
 const menu_w_sub = ref(null);
 const submenu = ref(null);
 const burger_submenu = ref(null);
 let isBSub = ref(false);
+
 onMounted(() => {
   menuHandler = () => {
     isMenuActive.value = !isMenuActive.value;
@@ -119,37 +160,30 @@ onMounted(() => {
       document.body.style.overflow = ""; // Удаляем стили overflow у body при неактивном меню
     }
   };
-  toggleSubMenuActive = (title = "Услуги", isActive, event) => {
-    if (title === "Услуги") {
-      if (isActive) {
-        isSubMenuActive.value = true;
-        if (timer) clearTimeout(timer);
-      } else {
-        // Проверяем, если курсор находится на подменю или на кнопке меню
-        if (
-          !menu_w_sub.value.contains(event.relatedTarget) &&
-          !submenu.value.contains(event.relatedTarget)
-        ) {
-          timer = setTimeout(() => {
-            isSubMenuActive.value = false;
-          }, 500);
-        }
+  toggleSubMenuActive = (isActive, event) => {
+    if (isActive) {
+      isSubMenuActive.value = true;
+      if (timer) clearTimeout(timer);
+    } else {
+      // Проверяем, если курсор находится на подменю или на кнопке меню
+      if (
+        !menu_w_sub.value.contains(event.relatedTarget) &&
+        !submenu.value.contains(event.relatedTarget)
+      ) {
+        timer = setTimeout(() => {
+          isSubMenuActive.value = false;
+        }, 300);
       }
     }
   };
 });
-const isService = (title) => {
-  // Проверяет, является ли название "Услуги"
-  return title === "Услуги";
-};
+
 let menuHandler = () => {};
 let toggleSubMenuActive = () => {};
 
-const burgerSubmenuHandle = (title = "Услуги", event) => {
-  if (title === "Услуги") {
-    event.preventDefault();
-    isBSub.value = !isBSub.value;
-  }
+const burgerSubmenuHandle = (event) => {
+  event.preventDefault();
+  isBSub.value = !isBSub.value;
 };
 </script>
 

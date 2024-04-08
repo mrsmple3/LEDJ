@@ -1,11 +1,11 @@
 <template>
   <NuxtLink
-    v-if="isMounted"
     v-for="(card, index) in card_infos"
     :key="card.id"
-    :to="`${trimLink(card.link)}`"
+    :to="'/services' + card.id"
     class="card"
-    :class="{ hidden: index > 8 && isMainPage }"
+    :class="{ hidden: isMainPage && index > 8 }"
+    @click.prevent="pushPage(card.id)"
   >
     <div class="w-full flex items-center justify-between gap-[10px] mb-[36px]">
       <div class="flex flex-col items-start gap-[3px]">
@@ -36,6 +36,7 @@
 </template>
 
 <script setup>
+const router = useRouter();
 const props = defineProps({
   isMainPage: {
     type: Boolean,
@@ -43,21 +44,10 @@ const props = defineProps({
     default: false,
   },
 });
-const router = useRoute();
-let isMounted = ref(false);
-const { data: card_infos } = await useFetch(
-  "http://ledjmedia.icorp.uz/wp-json/wp/v2/services"
-);
-onMounted(() => {
-  isMounted.value = true;
-});
-const trimLink = (link) => {
-  const baseUrl = "https://ledjmedia.icorp.uz/";
-  if (link.startsWith(baseUrl)) {
-    return link.substring(baseUrl.length);
-  } else {
-    return link;
-  }
+const websiteStore = useWebsiteStore();
+const card_infos = websiteStore.cardInfos.data;
+const pushPage = (id) => {
+  router.push(`/services/${id}`);
 };
 </script>
 

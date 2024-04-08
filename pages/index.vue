@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <main class="main">
+    <main id="main" class="main">
       <img src="/img/Main_page/Main_page_bg.png" alt="" class="main_page_bg" />
       <img
         src="/img/Main_page/Main_page_bg_ellips.svg"
@@ -92,7 +92,7 @@
         </swiper>
       </div>
     </main>
-    <div class="white_block">
+    <div id="about" class="white_block">
       <div class="about">
         <div
           class="flex items-start justify-between mb-[82px] max-md:mb-[50px]"
@@ -145,6 +145,8 @@
             </div>
             <img src="/img/Main_page/about_card_bg_bottom.png" alt="" />
           </div>
+          <p v-if="websiteStore.bilboards.pending">Loading ...</p>
+          <BilboardsComponent v-else />
         </div>
       </div>
       <div class="services">
@@ -154,8 +156,9 @@
           <h3 class="content_title">Предоставляемые услуги</h3>
           <h2 class="title gap-[9px]"><span>02</span> Наши услуги</h2>
         </div>
-        <div class="services_cards mb-[39px]">
-          <ServiceCards :is-main-page="true" />
+        <p v-if="websiteStore.cardInfos.pending">Loading ...</p>
+        <div v-else class="services_cards mb-[39px]">
+          <ServiceCards v-if="isMounted" :is-main-page="true" />
         </div>
         <div class="flex items-center justify-between">
           <span
@@ -167,7 +170,7 @@
         </div>
       </div>
     </div>
-    <div class="benefits">
+    <div id="benefits" class="benefits">
       <img
         src="/img/Main_page/benefit_top_left_bg.svg"
         alt=""
@@ -194,7 +197,7 @@
         >
           <div class="flex flex-col items-start gap-[17px]">
             <h2 class="title gap-[9px]"><span>03</span> Преимущества</h2>
-            <a href="" class="everything_btn">Everything you need</a>
+            <span class="everything_btn">Everything you need</span>
           </div>
           <div class="max-w-[689px] flex flex-col items-start">
             <h3 class="benefit_title mb-[62px]">
@@ -313,8 +316,9 @@
       </div>
     </div>
     <div class="white_block_2">
-      <ClientsComponent />
-      <div class="reviews">
+      <p v-if="websiteStore.clients.pending">Loading ...</p>
+      <ClientsComponent v-else id="partners" />
+      <div id="reviews" class="reviews">
         <div
           class="flex justify-between items-center mb-[56px] max-md:mb-[41px]"
         >
@@ -335,7 +339,8 @@
             <img src="/img/Main_page/reviews_bg.png" alt="" class="img" />
           </div>
         </div>
-        <div v-if="isMounted" class="reviews_slider_container relative">
+        <p v-if="websiteStore.reviews.pending">Loading...</p>
+        <div v-else v-if="isMounted" class="reviews_slider_container relative">
           <button class="reviews_btn-prev">
             <img src="/img/icons/arrow_left_nobg.svg" alt="" />
           </button>
@@ -408,7 +413,6 @@
   </div>
 </template>
 <script setup>
-import { Swiper, SwiperSlide } from "swiper/vue";
 import { EffectFade, Navigation, Autoplay, Pagination } from "swiper/modules";
 // Import Swiper styles
 import "swiper/css";
@@ -419,13 +423,9 @@ definePageMeta({
   layout: "default",
 });
 let isMounted = ref(false);
+const websiteStore = useWebsiteStore();
 
-const { data: bilboards } = await useFetch(
-  "http://ledjmedia.icorp.uz/wp-json/wp/v2/slides"
-);
-const { data: comments } = await useFetch(
-  "http://ledjmedia.icorp.uz/wp-json/wp/v2/custom-comments"
-);
+const comments = websiteStore.reviews.data;
 
 const pagination = {
   clickable: true,
@@ -438,10 +438,6 @@ const pagination_comment = {
   renderBullet: function (index, className) {
     return '<span class="' + className + " bg-red-600 " + '">' + "</span>";
   },
-};
-const navigation = {
-  nextEl: ".next_btn",
-  prevEl: ".prev_btn",
 };
 
 const reviews_navigation = {
