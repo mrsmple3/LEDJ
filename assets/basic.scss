@@ -82,6 +82,7 @@ header {
   }
   .submenu_content {
     position: absolute;
+    z-index: 10;
     top: 120%;
     left: 50%;
     transform: translateX(-50%);

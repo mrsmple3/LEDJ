@@ -127,7 +127,7 @@
 import { required, email, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 const { data: info } = await useFetch(
-  "http://ledjmedia.icorp.uz/wp-json/options/all"
+  "https://ledjmedia.icorp.uz/wp-json/options/all"
 );
 const state = reactive({
   formName: "",

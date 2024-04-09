@@ -24,7 +24,7 @@
             бизнес-задач
           </p>
           <div class="flex items-center flex-wrap gap-[34px]">
-            <button class="popup_link">
+            <button @click="popup" class="popup_link">
               <span> Оставить заявку </span>
               <img src="/img/icons/btn_arrow_right.svg" alt=">" />
             </button>
@@ -426,7 +426,6 @@ let isMounted = ref(false);
 const websiteStore = useWebsiteStore();
 
 const comments = websiteStore.reviews.data;
-
 const pagination = {
   clickable: true,
   renderBullet: function (index, className) {
@@ -451,6 +450,11 @@ let allowTouchMove = ref(false);
 const handleResize = () => {
   mobileSize.value = window.innerWidth < 768;
   allowTouchMove.value = window.innerWidth < 768;
+};
+
+const popup = () => {
+  websiteStore.popup.active = true;
+  websiteStore.popup.title = "";
 };
 
 onMounted(() => {

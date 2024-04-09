@@ -34,7 +34,7 @@
           </NuxtLink>
         </ul>
       </nav>
-      <button class="submit_btn mr-2.5">Оставить заявку</button>
+      <button @click="popup" class="submit_btn mr-2.5">Оставить заявку</button>
       <button
         @click="menuHandler"
         class="menu_btn w-[27px] h-[27px] relative mr-[19px]"
@@ -68,7 +68,7 @@
           <ul class="list">
             <NuxtLink
               v-for="sub in websiteStore.menu.sub"
-              :to="'services/' + sub.object_id"
+              :to="`/services/${sub.object_id}`"
               class="sub_item"
             >
               {{ sub.title }}
@@ -97,7 +97,7 @@
             >
               <NuxtLink
                 v-for="sub in websiteStore.menu.sub"
-                :to="'services/' + sub.object_id"
+                :to="`/services/${sub.object_id}`"
                 class="burger_sub_item"
                 >{{ sub.title }}</NuxtLink
               >
@@ -138,7 +138,7 @@
 
 <script setup>
 const { data: paths } = await useFetch(
-  "http://ledjmedia.icorp.uz/wp-json/custom/menu/2"
+  "https://ledjmedia.icorp.uz/wp-json/custom/menu/2"
 );
 const websiteStore = useWebsiteStore();
 websiteStore.setMenu(paths.value);
@@ -180,7 +180,10 @@ onMounted(() => {
 
 let menuHandler = () => {};
 let toggleSubMenuActive = () => {};
-
+const popup = () => {
+  websiteStore.popup.active = true;
+  websiteStore.popup.title = "";
+};
 const burgerSubmenuHandle = (event) => {
   event.preventDefault();
   isBSub.value = !isBSub.value;

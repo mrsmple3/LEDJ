@@ -71,7 +71,7 @@
           <img src="/img/service/bg_flower.svg" alt="" class="img" />
         </div>
       </div>
-      <p v-if="pending">Loading ...</p>
+      <p v-if="pending" @click="refreshData">Loading ...</p>
       <div v-else v-if="card_info.acf.cards_group.cards" class="service_cards">
         <div
           v-for="card in card_info.acf.cards_group.cards"
@@ -137,15 +137,22 @@
 const route = useRoute();
 const card_name = route.params.id;
 // let card_info = null;
-const { data: card_info, pending } = await useLazyFetch(
-  () => `http://ledjmedia.icorp.uz/wp-json/wp/v2/services/${card_name}`
+const {
+  data: card_info,
+  pending,
+  refresh,
+  status,
+} = await useLazyFetch(
+  () => `https://ledjmedia.icorp.uz/wp-json/wp/v2/services/${card_name}`
 );
-
 const websiteStore = useWebsiteStore();
 
 const popup = () => {
   websiteStore.popup.active = true;
   websiteStore.popup.title = card_info.value.title.rendered;
+};
+const refreshData = () => {
+  refresh();
 };
 </script>
 

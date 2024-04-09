@@ -1,5 +1,9 @@
 <template>
-  <div class="popup" :class="{ active: websiteStore.popup.active }">
+  <div
+    class="popup"
+    :class="{ active: websiteStore.popup.active }"
+    @click="closeOnOutsideClick"
+  >
     <div class="popup_content">
       <img
         id="close_popup"
@@ -51,6 +55,7 @@ const closePopup = () => {
     websiteStore.popup.title = "";
   }, 300);
 };
+const closeOnOutsideClick = () => {};
 </script>
 
 <style scoped>

@@ -5,20 +5,21 @@
 </template>
 
 <script setup>
+const websiteStore = useWebsiteStore();
 const { data: card_infos, pending: pendingCard } = await useFetch(
-  "http://ledjmedia.icorp.uz/wp-json/wp/v2/services"
+  `https://ledjmedia.icorp.uz/wp-json/wp/v2/services`
 );
 const { data: bilboards, pending: pendingBilboards } = await useFetch(
-  "http://ledjmedia.icorp.uz/wp-json/wp/v2/slides"
+  `https://ledjmedia.icorp.uz/wp-json/wp/v2/slides`
 );
 const { data: clinets, pending: pendingClients } = await useFetch(
-  "http://ledjmedia.icorp.uz/wp-json/wp/v2/clients"
+  `https://ledjmedia.icorp.uz/wp-json/wp/v2/clients`
 );
 const { data: comments, pending: pendingReviews } = await useFetch(
-  "http://ledjmedia.icorp.uz/wp-json/wp/v2/custom-comments"
+  `https://ledjmedia.icorp.uz/wp-json/wp/v2/custom-comments`
 );
 // Сохраняем данные в хранилище
-const websiteStore = useWebsiteStore();
+
 websiteStore.setCardInfos(card_infos.value, pendingCard.value);
 websiteStore.setBilboards(bilboards.value, pendingBilboards.value);
 websiteStore.setClients(clinets.value, pendingClients.value);

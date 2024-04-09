@@ -2,7 +2,7 @@
   <NuxtLink
     v-for="(card, index) in card_infos"
     :key="card.id"
-    :to="'/services' + card.id"
+    :to="isMainPage ? `services/${card.id}` : card.id"
     class="card"
     :class="{ hidden: isMainPage && index > 8 }"
     @click.prevent="pushPage(card.id)"

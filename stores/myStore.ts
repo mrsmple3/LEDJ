@@ -5,6 +5,7 @@ import { defineStore } from "pinia";
 export const useWebsiteStore = defineStore("websiteStore", {
   // Описываем состояние хранилища
   state: () => ({
+    http: "https://ledjmedia.icorp.uz/wp-json/wp/v2/",
     cardInfos: {
       data: null,
       pending: true,
