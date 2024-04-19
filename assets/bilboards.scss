@@ -76,6 +76,7 @@
     z-index: 5;
     @media screen and (max-width: 768px) {
       padding: 14px 18px;
+      bottom: 56px;
     }
   }
   .slider_title {
@@ -85,10 +86,14 @@
     font-weight: 600;
     line-height: 22.1px;
     word-wrap: break-word;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 5px;
     @media screen and (max-width: 768px) {
       font-size: 15px;
+      left: 22px;
+      right: auto;
     }
   }
 }
-
-

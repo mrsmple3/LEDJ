@@ -1,5 +1,5 @@
 <template>
-  <div class="trust">
+  <div v-if="isMounted && !websiteStore.clients.pending" class="trust">
     <div class="flex justify-between items-center mb-[53px] max-md:mb-[44px]">
       <h3 class="trust_title">Нам доверяют</h3>
       <h2 class="title gap-[9px]"><span>04</span> Наши клиенты</h2>
@@ -18,7 +18,7 @@
         <img src="/img/Main_page/trust_bg.png" alt="" class="img" />
       </div>
     </div>
-    <div v-if="isMounted" class="client_slider_container relative">
+    <div class="client_slider_container relative">
       <button class="client_btn-prev">
         <img src="/img/icons/arrow_left_nobg.svg" alt="" />
       </button>
@@ -34,15 +34,23 @@
         :modules="modules"
         :autoplay="{
           delay: 2500,
-          disableOnInteraction: false,
+          disableOnInteraction: true,
         }"
         class="trust_slider"
       >
-        <swiper-slide v-for="c in clinets" :key="c.id" class="slider">
-          <img :src="c.preview" alt="" class="objective-contain" />
+        <swiper-slide
+          v-for="c in websiteStore.clients.data"
+          :key="c.id"
+          class="slider"
+        >
+          <img :src="c.preview" alt="" class="objective-contain c_slider_img" />
         </swiper-slide>
-        <swiper-slide v-for="c in clinets" :key="c.id" class="slider">
-          <img :src="c.preview" alt="" class="objective-contain" />
+        <swiper-slide
+          v-for="c in websiteStore.clients.data"
+          :key="c.id"
+          class="slider"
+        >
+          <img :src="c.preview" alt="" class="objective-contain c_slider_img" />
         </swiper-slide>
       </swiper>
     </div>
@@ -63,7 +71,6 @@ const client_navigation = {
   prevEl: ".client_btn-prev",
 };
 const websiteStore = useWebsiteStore();
-const clinets = websiteStore.clients.data;
 const modules = [Navigation, Autoplay, EffectFade];
 let mobileSize = ref(false);
 let allowTouchMove = ref(false);

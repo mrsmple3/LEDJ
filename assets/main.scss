@@ -557,8 +557,13 @@
           right: -37px;
         }
         .reviews_slider {
+          display: flex;
+          align-items: stretch;
           .swiper-pagination-bullet-active {
             background-color: $orange;
+          }
+          .swiper-wrapper {
+            height: auto;
           }
           .slide {
             background: white;
@@ -566,7 +571,7 @@
             border: 1px solid #f3f3f3;
             width: 32%;
             max-width: 414px;
-            height: 430px;
+            height: 100%;
             padding: 38px 20px 38px 20px;
             margin-bottom: 50px;
             display: flex;

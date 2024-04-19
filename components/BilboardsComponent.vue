@@ -1,5 +1,5 @@
 <template>
-  <div v-show="isMounted" class="about_slider">
+  <div v-if="isMounted && !websiteStore.bilboards.pending" class="about_slider">
     <img src="/img/Main_page/LEDJ_logo_lider.svg" alt="" class="slider_logo" />
     <div class="slider_btns">
       <button class="prev_btn">
@@ -21,13 +21,16 @@
       :modules="modules"
     >
       <swiper-slide
-        v-for="slide in bilboards"
+        v-for="slide in websiteStore.bilboards.data"
         :key="slide.id"
         class="images_slide"
       >
         <img :src="slide.preview" :alt="slide.slides" class="objective-cover" />
-        <span class="slider_title absolute bottom-[22px] right-[35px]"
-          >• Реклама на билбордах
+        <span
+          v-if="slide.content.rendered"
+          class="slider_title absolute bottom-[22px] right-[35px]"
+          ><span>•</span>
+          <span v-thtml="slide.content.rendered"></span>
         </span>
       </swiper-slide>
     </swiper>
@@ -43,7 +46,6 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
 const websiteStore = useWebsiteStore();
-const bilboards = websiteStore.bilboards.data;
 const navigation = {
   nextEl: ".next_btn",
   prevEl: ".prev_btn",

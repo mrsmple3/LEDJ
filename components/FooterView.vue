@@ -1,5 +1,5 @@
 <template>
-  <footer id="contacts" class="relative">
+  <footer id="contacts" class="relative" ref="footer">
     <div class="footer">
       <div
         class="flex items-start justify-between flex-wrap gap-[74px] mb-[62px]"
@@ -13,15 +13,22 @@
             услугах и ценах.
           </p>
           <div class="phones flex flex-col items-start">
-            <a :href="'tel:' + info.phone1">{{ info.phone1 }}</a>
-            <a :href="'te:' + info.phone2">{{ info.phone2 }}</a>
+            <a :href="'tel:' + websiteStore.footer.data.phone1">{{
+              websiteStore.footer.data.phone1
+            }}</a>
+            <a :href="'te:' + websiteStore.footer.data.phone2">{{
+              websiteStore.footer.data.phone2
+            }}</a>
           </div>
           <br />
           <div class="emal_adress flex flex-col items-start">
-            <a :href="'mailto:' + info.email"
-              ><strong>E-mail: </strong>{{ info.email }}</a
+            <a :href="'mailto:' + websiteStore.footer.data.email"
+              ><strong>E-mail: </strong>{{ websiteStore.footer.data.email }}</a
             >
-            <span><strong>Адрес: </strong>{{ info.address }}</span>
+            <span
+              ><strong>Адрес: </strong
+              >{{ websiteStore.footer.data.address }}</span
+            >
           </div>
         </div>
         <div class="footer_form flex flex-col items-start mt-[9px]">
@@ -75,7 +82,49 @@
                 type="submit"
                 class="form_btn"
               >
-                Отправить
+                <span>Отправить</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  x="0px"
+                  y="0px"
+                  width="50"
+                  height="50"
+                  viewBox="0 0 48 48"
+                  class="max-w-[20px]"
+                  v-if="isPosted"
+                >
+                  <linearGradient
+                    id="1ayUTr30BaMDjOG69N2fSa_xTkoPEFGI0P7_gr1"
+                    x1="21.241"
+                    x2="3.541"
+                    y1="39.241"
+                    y2="21.541"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop offset=".108" stop-color="#0d7044"></stop>
+                    <stop offset=".433" stop-color="#11945a"></stop>
+                  </linearGradient>
+                  <path
+                    fill="url(#1ayUTr30BaMDjOG69N2fSa_xTkoPEFGI0P7_gr1)"
+                    d="M16.599,41.42L1.58,26.401c-0.774-0.774-0.774-2.028,0-2.802l4.019-4.019	c0.774-0.774,2.028-0.774,2.802,0L23.42,34.599c0.774,0.774,0.774,2.028,0,2.802l-4.019,4.019	C18.627,42.193,17.373,42.193,16.599,41.42z"
+                  ></path>
+                  <linearGradient
+                    id="1ayUTr30BaMDjOG69N2fSb_xTkoPEFGI0P7_gr2"
+                    x1="-15.77"
+                    x2="26.403"
+                    y1="43.228"
+                    y2="43.228"
+                    gradientTransform="rotate(134.999 21.287 38.873)"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop offset="0" stop-color="#2ac782"></stop>
+                    <stop offset="1" stop-color="#21b876"></stop>
+                  </linearGradient>
+                  <path
+                    fill="url(#1ayUTr30BaMDjOG69N2fSb_xTkoPEFGI0P7_gr2)"
+                    d="M12.58,34.599L39.599,7.58c0.774-0.774,2.028-0.774,2.802,0l4.019,4.019	c0.774,0.774,0.774,2.028,0,2.802L19.401,41.42c-0.774,0.774-2.028,0.774-2.802,0l-4.019-4.019	C11.807,36.627,11.807,35.373,12.58,34.599z"
+                  ></path>
+                </svg>
               </button>
               <p class="form_title">
                 Отправляя данную форму, вы соглашаетесь на обработку
@@ -99,16 +148,28 @@
           >© LEDJ MEIDA 2024. Все права защищены.</span
         >
         <div
-          v-if="info.telegram || info.instagram || info.facebook"
+          v-if="
+            websiteStore.footer.data.telegram ||
+            websiteStore.footer.data.instagram ||
+            websiteStore.footer.data.facebook
+          "
           class="social_media flex items-center gap-[14px] max-md:mb-[65px]"
         >
-          <a v-if="info.telegram" :href="info.telegram"
+          <a
+            v-if="websiteStore.footer.data.telegram"
+            :href="websiteStore.footer.data.telegram"
             ><img src="/img/icons/footer_media/1.svg" alt="telegram"
           /></a>
-          <a v-if="info.instagram" :href="info.instagram">
+          <a
+            v-if="websiteStore.footer.data.instagram"
+            :href="websiteStore.footer.data.instagram"
+          >
             <img src="/img/icons/footer_media/2.svg" alt="instagram" />
           </a>
-          <a v-if="info.facebook" :href="info.facebook">
+          <a
+            v-if="websiteStore.footer.data.facebook"
+            :href="websiteStore.footer.data.facebook"
+          >
             <img src="/img/icons/footer_media/3.svg" alt="facebook" />
           </a>
         </div>
@@ -124,17 +185,61 @@
 </template>
 
 <script setup>
-import { required, email, minLength } from "@vuelidate/validators";
+import { required, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
-const { data: info } = await useFetch(
-  "https://ledjmedia.icorp.uz/wp-json/options/all"
-);
+
+const websiteStore = useWebsiteStore();
+const route = useRoute();
 const state = reactive({
   formName: "",
   formPhone: "",
   formCompany: "",
   formComment: "",
 });
+let isPosted = ref(false);
+const sendData = async () => {
+  const formData = new FormData();
+  formData.append("name", state.formName);
+  formData.append("phone", state.formPhone);
+  formData.append("company", state.formCompany);
+  formData.append("comment", state.formComment);
+
+  // Получение UTM-меток из route
+  const utmSource = route.query.utm_source || "";
+  const utmMedium = route.query.utm_medium || "";
+  const utmCampaign = route.query.utm_campaign || "";
+  const utmTerm = route.query.utm_term || "";
+  const utmContent = route.query.utm_content || "";
+  const utmReferrer = route.query.utm_referrer || "";
+
+  try {
+    const response = await $fetch("https://ledjmedia.uz/amo/amo.php", {
+      method: "POST",
+      body: formData,
+      params: {
+        utm_source: utmSource,
+        utm_medium: utmMedium,
+        utm_campaign: utmCampaign,
+        utm_term: utmTerm,
+        utm_content: utmContent,
+        utm_referrer: utmReferrer,
+      },
+    });
+    const jsonResponse = await response.json();
+    console.log(jsonResponse);
+    // Очистка значений полей после успешной отправки
+    state.formName = "";
+    state.formPhone = "";
+    state.formCompany = "";
+    state.formComment = "";
+    isPosted.value = true;
+    setTimeout(() => {
+      isPosted.value = false;
+    }, 2000);
+  } catch (error) {
+    console.error("HTTP-Error: " + error);
+  }
+};
 
 const rules = computed(() => {
   return {
@@ -147,9 +252,20 @@ const v$ = useVuelidate(rules, state);
 const submitHandler = () => {
   v$.value.$validate();
   if (!v$.value.$error) {
-    //    Some code
+    const sended = sendData();
+    websiteStore.setPosted(true);
   }
 };
+
+const footer = ref(null);
+
+onMounted(() => {
+  websiteStore.setContentWidth(window.innerWidth - footer.value.offsetWidth);
+  document.documentElement.style.setProperty(
+    "--scrollbar-width",
+    `${window.innerWidth - footer.value.offsetWidth}px`
+  );
+});
 </script>
 
 <style lang="scss" scoped></style>

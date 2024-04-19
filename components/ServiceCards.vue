@@ -1,10 +1,10 @@
 <template>
   <NuxtLink
-    v-for="(card, index) in card_infos"
+    v-for="(card, index) in websiteStore.cardInfos.data"
     :key="card.id"
-    :to="isMainPage ? `services/${card.id}` : card.id"
+    :to="{ path: `/services/${trimLink(card.link)}`, query: { ide: card.id } }"
     class="card"
-    :class="{ hidden: isMainPage && index > 8 }"
+    :class="{ '!hidden': isMainPage && index > 8 }"
     @click.prevent="pushPage(card.id)"
   >
     <div class="w-full flex items-center justify-between gap-[10px] mb-[36px]">
@@ -41,14 +41,19 @@ const props = defineProps({
   isMainPage: {
     type: Boolean,
     required: true,
-    default: false,
+    default: true,
   },
 });
 const websiteStore = useWebsiteStore();
-const card_infos = websiteStore.cardInfos.data;
-const pushPage = (id) => {
-  router.push(`/services/${id}`);
-};
+function trimLink(link) {
+  const baseUrl = "https://ledjmedia.uz/services/";
+  if (link.startsWith(baseUrl)) {
+    return link.substring(baseUrl.length);
+  } else {
+    // Если ссылка не начинается с базового URL, возвращаем исходную ссылку
+    return link;
+  }
+}
 </script>
 
 <style lang="scss">

@@ -1,15 +1,22 @@
 <template>
-  <div class="services_wrapper">
-    <div class="servicec_content">
-      <div class="labels flex items-center gap-[10px]">
-        <NuxtLink to="/" class="route_label">Главная</NuxtLink>
-        <NuxtLink to="/services" class="route_label">Услуги</NuxtLink>
+  <div>
+    <PreloaderComponent
+      v-if="websiteStore.preLoader || websiteStore.cardInfos.pending"
+    />
+    <div v-else>
+      <div class="services_wrapper">
+        <div class="servicec_content">
+          <div class="labels flex items-center gap-[10px]">
+            <NuxtLink to="/" class="route_label">Главная</NuxtLink>
+            <NuxtLink to="/services" class="route_label">Услуги</NuxtLink>
+          </div>
+          <h2 class="services_wrapper_title">Предоставляемые услуги</h2>
+          <div class="services_cards">
+            <ServiceCards :is-main-page="false" />
+          </div>
+        </div>
       </div>
-      <h2 class="services_wrapper_title">Предоставляемые услуги</h2>
-      <div class="services_cards">
-        <p v-if="websiteStore.cardInfos.pending">Loading ...</p>
-        <ServiceCards v-else />
-      </div>
+      <FooterView />
     </div>
   </div>
 </template>
@@ -17,6 +24,11 @@
 <script setup lang="ts">
 import { useWebsiteStore } from "#imports";
 const websiteStore = useWebsiteStore();
+let isMounted = ref(false);
+onMounted(() => {
+  isMounted.value = true;
+  websiteStore.setMounted(isMounted.value);
+});
 </script>
 
 <style lang="scss">

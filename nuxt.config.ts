@@ -3,12 +3,20 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
-  modules: ["@nuxtjs/tailwindcss", "nuxt-swiper", "@pinia/nuxt"],
+  modules: ["@nuxt/ui", "nuxt-swiper", "@pinia/nuxt"],
   routeRules: {
     // Generated at build time for SEO purpose
     "/": { prerender: true },
   },
   pinia: {
     storesDirs: ["./stores/**"],
+  },
+  router: {
+    options: {
+      scrollBehaviorType: "smooth",
+    },
+  },
+  app: {
+    pageTransition: { name: "page", mode: "out-in" },
   },
 });

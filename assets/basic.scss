@@ -60,6 +60,9 @@ body {
   font-style: normal;
   background: $black;
 }
+.overflow-hidden header {
+  margin-left: calc(-1 * var(--scrollbar-width) + 6px);
+}
 // Header
 header {
   position: relative;
@@ -105,7 +108,7 @@ header {
       width: 100%;
       padding: 49px 0 71px 59px;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       .title {
         color: $black;
@@ -179,8 +182,8 @@ header {
       width: 0;
     }
     &.active {
-      max-height: 470px;
-      height: 470px;
+      max-height: 540px;
+      height: 540px;
       padding-left: 5px;
       padding-right: 5px;
     }
@@ -189,7 +192,7 @@ header {
       max-width: 342px;
       padding-top: 52px;
       padding-bottom: 57px;
-      padding-left: 10px;
+      padding-left: 25px;
       padding-right: 10px;
       display: flex;
       flex-direction: column;
@@ -208,10 +211,17 @@ header {
         align-items: flex-start;
         justify-content: flex-start;
         gap: 25px;
+        .burger_sub_item {
+          color: $black;
+          font-size: 23px;
+          transition: all 0.3s;
+        }
         .burgermenu_with_sub {
           position: relative;
           .burger_submenu {
             overflow: hidden;
+            position: relative;
+            z-index: 5;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -219,8 +229,9 @@ header {
             transform: translateX(4%);
             height: 0px;
             transition: all 500ms;
+
             &.active {
-              height: 367px;
+              height: 92%;
               margin-top: 20px;
             }
             .burger_sub_item {
@@ -242,6 +253,48 @@ header {
             &:hover {
               color: $orange;
             }
+          }
+        }
+        .dropdown {
+          max-width: 80px;
+          border-color: #fff;
+          background-color: transparent;
+          color: $black;
+          @media screen and (max-width: 1160px) {
+            margin-right: 25px;
+          }
+          span {
+            text-transform: uppercase !important;
+            font-size: 23px;
+          }
+          .truncate {
+            text-transform: uppercase;
+            font-size: 23px;
+          }
+          .w-48 {
+            max-width: 80px;
+            text-transform: uppercase;
+            .scroll-py-1 {
+              background-color: transparent;
+              border: none;
+              box-shadow: none;
+            }
+            .group {
+              color: $black;
+              background-color: transparent;
+              box-shadow: none;
+            }
+          }
+        }
+        .dropdown_btn {
+          border-color: #fff;
+          background-color: transparent;
+          color: $black;
+          box-shadow: none;
+          padding: 0;
+          &:hover {
+            background-color: transparent;
+            box-shadow: none;
           }
         }
       }
@@ -325,8 +378,49 @@ header {
     padding: 19.5px 30px;
     border: 1px solid $black;
     @include hover_btn($black, white);
+    @media screen and (max-width: 1160px) {
+      display: none;
+    }
+  }
+  .dropdown {
+    max-width: 50px;
+    border-color: #fff;
+    background-color: transparent;
+    @media screen and (max-width: 1160px) {
+      margin-right: 25px;
+    }
     @media screen and (max-width: 1050px) {
       display: none;
+    }
+    span {
+      text-transform: uppercase !important;
+      font-size: 16px;
+    }
+    .truncate {
+      text-transform: uppercase;
+      font-size: 16px;
+    }
+    .w-48 {
+      max-width: 50px;
+      text-transform: uppercase;
+      .scroll-py-1 {
+        background-color: #fff;
+        box-shadow: none;
+        border: none;
+      }
+      .group {
+        color: $black;
+        background-color: white;
+      }
+    }
+  }
+  .dropdown_btn {
+    border-color: #fff;
+    background-color: #fff;
+    box-shadow: none;
+    color: $black;
+    &:hover {
+      background-color: transparent;
     }
   }
 }
@@ -428,9 +522,14 @@ footer {
       }
     }
     .form_btn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
       @include hover_btn(#d4180c, white);
       padding: 20px 57px;
       border-radius: 100px;
+      transition: all 0.3s;
       @media screen and (max-width: 768px) {
         padding: 18px 50px;
       }

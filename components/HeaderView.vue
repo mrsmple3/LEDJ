@@ -1,12 +1,16 @@
 <template>
-  <header class="z-10">
+  <header v-if="!websiteStore.preLoader" class="z-10" ref="header">
     <div class="header">
       <NuxtLink to="/" class="logo flex items-center gap-[6.77px] w-max pl-6">
         <img src="/img/Header_LOGO.svg" alt="logo" class="logo_img" />
       </NuxtLink>
       <nav>
         <ul class="navbar" ref="menu_w_sub">
-          <NuxtLink :to="{ path: '/', hash: '#main' }" class="navbar_item">
+          <NuxtLink
+            :to="{ path: '/', hash: '#main' }"
+            @click="isSubMenuActive = false"
+            class="navbar_item"
+          >
             Главная
           </NuxtLink>
           <NuxtLink
@@ -14,26 +18,73 @@
             class="navbar_item menu_with_sub"
             @mouseenter="toggleSubMenuActive(true, $event)"
             @mouseleave="toggleSubMenuActive(false, $event)"
+            @click="services"
           >
-            Услуги
+            <div class="flex items-end gap-[3px]">
+              <span>Услуги</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 24 24"
+                class="rotate-90 transition-all duration-300"
+                :class="{ '!-rotate-90': isSubMenuActive }"
+              >
+                <path fill="currentColor" d="M10 17V7l5 5z" />
+              </svg>
+            </div>
           </NuxtLink>
-          <NuxtLink :to="{ path: '/', hash: '#about' }" class="navbar_item">
-            Об агенстве
+          <NuxtLink
+            :to="{ path: '/', hash: '#about' }"
+            class="navbar_item"
+            @click="isSubMenuActive = false"
+          >
+            Об агентсве
           </NuxtLink>
-          <NuxtLink :to="{ path: '/', hash: '#benefits' }" class="navbar_item">
+          <NuxtLink
+            :to="{ path: '/', hash: '#benefits' }"
+            class="navbar_item"
+            @click="isSubMenuActive = false"
+          >
             Преимущества
           </NuxtLink>
-          <NuxtLink :to="{ path: '/', hash: '#partners' }" class="navbar_item">
+          <NuxtLink
+            :to="{ path: '/', hash: '#partners' }"
+            class="navbar_item"
+            @click="isSubMenuActive = false"
+          >
             Партнеры
           </NuxtLink>
-          <NuxtLink :to="{ path: '/', hash: '#reviews' }" class="navbar_item">
+          <NuxtLink
+            :to="{ path: '/', hash: '#reviews' }"
+            class="navbar_item"
+            @click="isSubMenuActive = false"
+          >
             Отзывы
           </NuxtLink>
-          <NuxtLink :to="{ path: '/', hash: '#contacts' }" class="navbar_item">
+          <NuxtLink
+            :to="{ path: '/', hash: '#contacts' }"
+            class="navbar_item"
+            @click="isSubMenuActive = false"
+          >
             Контакты
           </NuxtLink>
         </ul>
       </nav>
+      <UDropdown
+        :items="items"
+        mode="hover"
+        class="dropdown max-md:hidden"
+        labelClass="dropdown"
+        :popper="{ placement: 'bottom-start' }"
+      >
+        <UButton
+          color="white"
+          :label="langLabel"
+          class="dropdown_btn"
+          trailing-icon="i-heroicons-chevron-down-20-solid"
+        />
+      </UDropdown>
       <button @click="popup" class="submit_btn mr-2.5">Оставить заявку</button>
       <button
         @click="menuHandler"
@@ -67,11 +118,15 @@
           </h3>
           <ul class="list">
             <NuxtLink
-              v-for="sub in websiteStore.menu.sub"
-              :to="`/services/${sub.object_id}`"
+              v-for="sub in websiteStore.cardInfos.data"
+              :to="{
+                path: `/services/${trimLink(sub.link)}`,
+                query: { ide: sub.id },
+              }"
               class="sub_item"
+              @click="isSubMenuActive = false"
             >
-              {{ sub.title }}
+              {{ sub.title.rendered }}
             </NuxtLink>
           </ul>
         </div>
@@ -82,54 +137,94 @@
       <div class="burger_menu_wrapper">
         <span class="menu_title">Меню</span>
         <ul class="navbar">
-          <NuxtLink :to="{ path: '/', hash: '#main' }" class="burger_sub_item">
+          <NuxtLink
+            :to="{ path: '/', hash: '#main' }"
+            class="burger_sub_item"
+            @click="hideBurgerMenu"
+          >
             Главная
           </NuxtLink>
           <li
-            class="burger_sub_item burgermenu_with_sub"
+            class="burger_sub_item burgermenu_with_sub relative"
             @click="burgerSubmenuHandle($event)"
           >
-            Услуги
+            <span>Услуги</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="1em"
+              height="1em"
+              viewBox="0 0 24 24"
+              class="rotate-90 absolute left-[80px] top-[8px] transition-all duration-300"
+              :class="{ '!-rotate-90': isBSub }"
+            >
+              <path fill="currentColor" d="M10 17V7l5 5z" />
+            </svg>
             <div
               class="burger_submenu"
               ref="burger_submenu"
               :class="{ active: isBSub }"
             >
               <NuxtLink
-                v-for="sub in websiteStore.menu.sub"
-                :to="`/services/${sub.object_id}`"
+                v-for="sub in websiteStore.cardInfos.data"
+                :to="{
+                  path: `/services/${trimLink(sub.link)}`,
+                  query: { sub: sub.id },
+                }"
+                @click="hideBurgerMenu"
                 class="burger_sub_item"
-                >{{ sub.title }}</NuxtLink
+                >{{ sub.title.rendered }}</NuxtLink
               >
             </div>
           </li>
-          <NuxtLink :to="{ path: '/', hash: '#about' }" class="burger_sub_item">
-            Об агенстве
+          <NuxtLink
+            :to="{ path: '/', hash: '#about' }"
+            class="burger_sub_item"
+            @click="hideBurgerMenu"
+          >
+            Об агентсве
           </NuxtLink>
           <NuxtLink
             :to="{ path: '/', hash: '#benefits' }"
             class="burger_sub_item"
+            @click="hideBurgerMenu"
           >
             Преимущества
           </NuxtLink>
           <NuxtLink
             :to="{ path: '/', hash: '#partners' }"
             class="burger_sub_item"
+            @click="hideBurgerMenu"
           >
             Партнеры
           </NuxtLink>
           <NuxtLink
             :to="{ path: '/', hash: '#reviews' }"
             class="burger_sub_item"
+            @click="hideBurgerMenu"
           >
             Отзывы
           </NuxtLink>
           <NuxtLink
             :to="{ path: '/', hash: '#contacts' }"
             class="burger_sub_item"
+            @click="hideBurgerMenu"
           >
             Контакты
           </NuxtLink>
+          <button @click="popup" class="navbar_item">Оставить заявку</button>
+          <UDropdown
+            :items="items"
+            mode="click"
+            class="dropdown"
+            :popper="{ placement: 'right-start' }"
+          >
+            <UButton
+              color="white"
+              :label="langLabel"
+              class="dropdown_btn"
+              trailing-icon="i-heroicons-chevron-down-20-solid"
+            />
+          </UDropdown>
         </ul>
       </div>
     </div>
@@ -137,11 +232,7 @@
 </template>
 
 <script setup>
-const { data: paths } = await useFetch(
-  "https://ledjmedia.icorp.uz/wp-json/custom/menu/2"
-);
 const websiteStore = useWebsiteStore();
-websiteStore.setMenu(paths.value);
 
 let isMenuActive = ref(false);
 let isSubMenuActive = ref(false);
@@ -150,6 +241,7 @@ const menu_w_sub = ref(null);
 const submenu = ref(null);
 const burger_submenu = ref(null);
 let isBSub = ref(false);
+const header = ref(null);
 
 onMounted(() => {
   menuHandler = () => {
@@ -161,7 +253,7 @@ onMounted(() => {
     }
   };
   toggleSubMenuActive = (isActive, event) => {
-    if (isActive) {
+    if (isActive && isPushServices) {
       isSubMenuActive.value = true;
       if (timer) clearTimeout(timer);
     } else {
@@ -172,22 +264,78 @@ onMounted(() => {
       ) {
         timer = setTimeout(() => {
           isSubMenuActive.value = false;
-        }, 300);
+        }, 150);
       }
     }
   };
 });
-
+function trimLink(link) {
+  const baseUrl = "https://ledjmedia.uz/services/";
+  if (link.startsWith(baseUrl)) {
+    return link.substring(baseUrl.length);
+  } else {
+    // Если ссылка не начинается с базового URL, возвращаем исходную ссылку
+    return link;
+  }
+}
 let menuHandler = () => {};
 let toggleSubMenuActive = () => {};
+const hideBurgerMenu = () => {
+  isMenuActive.value = false;
+  document.body.style.overflow = "";
+};
 const popup = () => {
   websiteStore.popup.active = true;
-  websiteStore.popup.title = "";
+  hideBurgerMenu();
 };
 const burgerSubmenuHandle = (event) => {
   event.preventDefault();
   isBSub.value = !isBSub.value;
 };
+let isPushServices = ref(false);
+const services = () => {
+  isPushServices.value = true;
+  isSubMenuActive.value = false;
+  setTimeout(() => {
+    isPushServices.value = false;
+  }, 500);
+};
+let langLabel = ref("RU");
+const items = [
+  [
+    {
+      label: websiteStore.locale.languages[0].slug,
+      click: async () => {
+        hideBurgerMenu();
+        websiteStore.locale.currentLanguage =
+          websiteStore.locale.languages[0].slug;
+        langLabel.value = websiteStore.locale.languages[0].slug;
+        try {
+          websiteStore.setAllData();
+          await refreshNuxtData();
+        } catch (error) {
+          console.log("Ошибка при смене языка:", error);
+        }
+      },
+    },
+    {
+      label: websiteStore.locale.languages[1].slug,
+      click: async () => {
+        hideBurgerMenu();
+        websiteStore.locale.currentLanguage =
+          websiteStore.locale.languages[1].slug;
+        langLabel.value = websiteStore.locale.languages[1].slug;
+
+        try {
+          websiteStore.setAllData();
+          await refreshNuxtData();
+        } catch (error) {
+          console.log("Ошибка при смене языка:", error);
+        }
+      },
+    },
+  ],
+];
 </script>
 
 <style lang="scss"></style>
