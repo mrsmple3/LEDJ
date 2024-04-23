@@ -5,7 +5,6 @@
     :to="{ path: `/services/${trimLink(card.link)}`, query: { ide: card.id } }"
     class="card"
     :class="{ '!hidden': isMainPage && index > 8 }"
-    @click.prevent="pushPage(card.id)"
   >
     <div class="w-full flex items-center justify-between gap-[10px] mb-[36px]">
       <div class="flex flex-col items-start gap-[3px]">

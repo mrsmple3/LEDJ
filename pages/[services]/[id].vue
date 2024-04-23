@@ -8,16 +8,14 @@
         <img
           :src="card_info.featured_image_url"
           alt=""
-          class="relative w-full -z-[1] max-h-[264px] min-h-[264px] object-cover"
+          class="relative w-full -z-[1] max-h-[264px] min-h-[200px] object-cover"
         />
         <div class="sevice_wrapper">
           <div class="service_content">
             <div class="labels flex items-center gap-[10px] flex-wrap">
               <NuxtLink to="/" class="route_label">Главная</NuxtLink>
               <NuxtLink to="/services" class="route_label">Услуги</NuxtLink>
-              <NuxtLink :to="$route.params.id" class="route_label">{{
-                card_info.title.rendered
-              }}</NuxtLink>
+              <span class="route_label">{{ card_info.title.rendered }}</span>
             </div>
 
             <div class="flex items-start justify-between gap-[30px]">
@@ -45,7 +43,7 @@
                     <div class="btn_content">
                       <span class="text-nowrap">Заказать услугу</span>
                       <img
-                        src="/img/icons/btn_arrow_right_white.svg"
+                        src="~/public/img/icons/btn_arrow_right_white.svg"
                         alt=">"
                         class="mr-[10px]"
                       />
@@ -64,7 +62,11 @@
                   <p class="title">Выведем ваш бренд на новый уровень</p>
                 </div>
               </div>
-              <img src="/img/service/bg_flower.svg" alt="" class="img" />
+              <img
+                src="~/public/img/service/bg_flower.svg"
+                alt=""
+                class="img"
+              />
             </div>
           </div>
 
@@ -90,15 +92,15 @@
                 map-type="map"
               >
                 <YandexCollection
+                  v-for="marker in websiteStore.map.data"
                   :options="{ preset: 'islands#redCircleIcon' }"
                 >
                   <YandexMarker
-                    v-for="marker in websiteStore.map.data"
                     :key="marker.id"
-                    :coordinates="[marker.acf.longitude, marker.acf.latitude]"
+                    :coordinates="[marker.acf.latitude, marker.acf.longitude]"
                     :marker-id="marker.id"
-                    :properties="{ preset: markerColor }"
-                    @click="togglePopup(marker)"
+                    ref="map_s"
+                    @click="togglePopup($event, marker)"
                   >
                   </YandexMarker>
                 </YandexCollection>
@@ -108,7 +110,7 @@
               <div class="flex flex-col items-start">
                 <div class="w-full flex items-center justify-between mb-[14px]">
                   <h6>{{ mapsData.title }}</h6>
-                  <img src="/img/icons/big_note.svg" alt="marker" />
+                  <img src="~/public/img/icons/greenMarker.png" alt="marker" />
                 </div>
                 <ul class="flex flex-col gap-[16px]">
                   <li><strong>Адрес:</strong> {{ mapsData.adress }}</li>
@@ -125,11 +127,14 @@
                   <h6 class="title">Бесплатная консультация</h6>
                   <span class="span">LEDJ MEDIA</span>
                 </div>
-                <img src="/img/service/arrow_right.svg" alt="arrow_right" />
+                <img
+                  src="~/public/img/service/arrow_right.svg"
+                  alt="arrow_right"
+                />
               </button>
               <div class="right_side flex flex-col items-end gap-[30px]">
                 <img
-                  src="/img/service/logo.png"
+                  src="~/public/img/service/logo.png"
                   alt="logo"
                   class="max-md:hidden"
                 />
@@ -148,7 +153,7 @@
                     >Контакты</NuxtLink
                   >
                   <img
-                    src="/img/service/logo.png"
+                    src="~/public/img/service/logo.png"
                     alt="logo"
                     class="max-md:max-w-[113px] md:hidden"
                   />
@@ -169,7 +174,7 @@
                   хороший вкус и вдохновляет людей
                 </p>
               </div>
-              <img src="/img/service/card_bg.svg" alt="" />
+              <img src="~/public/img/service/card_bg.svg" alt="" />
             </div>
           </div>
         </div>
@@ -181,23 +186,23 @@
 
 <script setup>
 import { YandexMap, YandexMarker, YandexCollection } from "vue-yandex-maps";
-import maps from "~/plugins/maps";
 
 definePageMeta({ pageTransition: false });
 
 const websiteStore = useWebsiteStore();
-const markerColor = ref("islands#redCircleIcon");
+const map_s = ref(null);
 let isPopup = ref(false);
-const coordinates = [41.307371, 69.305132];
-const controls = ["fullscreenControl"];
-
+const controls = ["typeSelector"];
 const route = useRoute();
+
 const mapsData = reactive({
+  id: null,
   title: "",
   adress: "",
   size: "",
   price: "",
 });
+
 let isMounted = ref(false);
 
 const card_name = route.query.ide;
@@ -212,19 +217,30 @@ onMounted(async () => {
   websiteStore.setMounted(isMounted.value);
 });
 
-const togglePopup = (data) => {
+const togglePopup = (e, data) => {
+  map_s.value.forEach((element) => {
+    element.options.set("preset", "islands#redCircleIcon");
+  });
+
+  if (isPopup.value === false) {
+    isPopup.value = true;
+    e.get("target").options.set("preset", "islands#greenCircleIcon");
+  } else if (mapsData.id !== data.id) {
+    isPopup.value = true;
+
+    e.get("target").options.set("preset", "islands#greenCircleIcon");
+  } else {
+    isPopup.value = false;
+    e.get("target").options.set("preset", "islands#redCircleIcon");
+  }
+  mapsData.id = data.id;
   mapsData.title = data.title.rendered;
   mapsData.adress = data.acf.address;
   mapsData.size = data.acf.size;
   mapsData.price = data.acf.price;
-  if (mapsData.title !== "") {
-    isPopup.value = !isPopup.value;
-  }
   // Меняем цвет маркера при нажатии
-  markerColor.value = isPopup.value
-    ? "islands#blueCircleIcon"
-    : "islands#redCircleIcon";
 };
+
 const popup = () => {
   websiteStore.popup.active = true;
   websiteStore.popup.title = card_info.value.title.rendered;
@@ -236,5 +252,8 @@ const popup = () => {
 .yandex-container {
   height: 500px;
   border-radius: 30px;
+}
+.balloon {
+  filter: hue-rotate(160deg);
 }
 </style>

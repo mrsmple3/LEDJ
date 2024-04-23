@@ -7,7 +7,7 @@
     <div class="popup_content">
       <img
         id="close_popup"
-        src="/img/icons/x.svg"
+        src="~/public/img/icons/x.svg"
         alt="x"
         @click="closePopup"
         class="absolute w-7 h-7 top-5 right-[22px] z-[2] cursor-pointer"
@@ -49,7 +49,13 @@
         </div>
 
         <button type="submit" class="submit_btn w-full py-[13px]">
-          <span>Отправить</span>
+          <span>Отправить</span
+          ><img
+            v-if="isPosted"
+            src="~/public/img/galochka.gif"
+            alt="Galochka"
+            class="max-h-[20px] max-w-[20px]"
+          />
         </button>
       </form>
       <div class="flex flex-col items-center gap-[25px] px-[45px]">
@@ -58,7 +64,7 @@
           данных.
         </p>
         <div
-          class="phone flex items-center gap-1 max-md:flex-wrap max-md:flex-col"
+          class="phone flex items-center gap-3 max-md:flex-wrap max-md:flex-col"
         >
           <a href="tel: +998 (55) 506 54 44">+998 (97) 249-80-87 </a>
           <span class="hidden">|</span>
@@ -100,25 +106,20 @@ const sendData = async () => {
   const utmContent = route.query.utm_content || "";
   const utmReferrer = route.query.utm_referrer || "";
   try {
-    const response = await $fetch("https://ledjmedia.uz/amo/amo.php", {
-      method: "POST",
-      body: formData,
-      params: {
-        utm_source: utmSource,
-        utm_medium: utmMedium,
-        utm_campaign: utmCampaign,
-        utm_term: utmTerm,
-        utm_content: utmContent,
-        utm_referrer: utmReferrer,
-      },
-    });
-    const jsonResponse = await response.json();
-    console.log(jsonResponse);
+    await useFetch(
+      `https://ledjmedia.uz/amo/amo.php?utm_source=${utmSource}&utm_medium=${utmMedium}&utm_campaign=${utmCampaign}&utm_term=${utmTerm}&utm_content=${utmContent}&utm_referrer=${utmReferrer}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    isPosted.value = true;
     // Очистка значений полей после успешной отправки
     setTimeout(() => {
       state.formName = "";
       state.formPhone = "";
-    }, 300);
+      isPosted.value = false;
+    }, 3000);
   } catch (error) {
     console.log("Http error:", error);
   }

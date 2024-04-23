@@ -45,9 +45,7 @@ export const useWebsiteStore = defineStore("websiteStore", {
     },
   }),
   getters: {},
-  // Описываем действия (actions), которые могут изменять состояние
   actions: {
-    // Действие для установки cardInfos
     async setCardInfos() {
       const { data: card_infos, pending: pendingCard } = await useFetch<any>(
         `${this.http}/wp/v2/services?lang=${this.locale.currentLanguage}`

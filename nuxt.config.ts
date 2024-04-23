@@ -2,12 +2,12 @@
 // import { defineNuxtModule } from "nuxt";
 export default defineNuxtConfig({
   devtools: { enabled: true },
-
   modules: ["@nuxt/ui", "nuxt-swiper", "@pinia/nuxt"],
   routeRules: {
     // Generated at build time for SEO purpose
     "/": { prerender: true },
   },
+  plugins: [{ src: "~/plugins/maps", mode: "client" }],
   pinia: {
     storesDirs: ["./stores/**"],
   },

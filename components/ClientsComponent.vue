@@ -15,15 +15,15 @@
         клиента.
       </p>
       <div class="trust_bg_block">
-        <img src="/img/Main_page/trust_bg.png" alt="" class="img" />
+        <img src="~/public/img/Main_page/trust_bg.png" alt="" class="img" />
       </div>
     </div>
     <div class="client_slider_container relative">
       <button class="client_btn-prev">
-        <img src="/img/icons/arrow_left_nobg.svg" alt="" />
+        <img src="~/public/img/icons/arrow_left_nobg.svg" alt="" />
       </button>
       <button class="client_btn-next">
-        <img src="/img/icons/arrow_right_nobg.svg" alt="" />
+        <img src="~/public/img/icons/arrow_right_nobg.svg" alt="" />
       </button>
       <swiper
         :slidesPerView="mobileSize ? 'auto' : 6"

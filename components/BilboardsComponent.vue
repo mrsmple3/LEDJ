@@ -1,12 +1,16 @@
 <template>
   <div v-if="isMounted && !websiteStore.bilboards.pending" class="about_slider">
-    <img src="/img/Main_page/LEDJ_logo_lider.svg" alt="" class="slider_logo" />
+    <img
+      src="~/public/img/Main_page/LEDJ_logo_lider.svg"
+      alt=""
+      class="slider_logo"
+    />
     <div class="slider_btns">
       <button class="prev_btn">
-        <img src="/img/icons/arrow_left.svg" alt="" />
+        <img src="~/public/img/icons/arrow_left.svg" alt="" />
       </button>
       <button class="next_btn">
-        <img src="/img/icons/arrow_right.svg" alt="" />
+        <img src="~/public/img/icons/arrow_right.svg" alt="" />
       </button>
     </div>
     <swiper

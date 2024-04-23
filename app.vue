@@ -8,7 +8,6 @@
 const websiteStore = useWebsiteStore();
 
 websiteStore.setAllData();
-
 useSeoMeta({
   title: "Ledj Media",
   ogTitle: "Ledj Media",

@@ -2,7 +2,7 @@
   <header v-if="!websiteStore.preLoader" class="z-10" ref="header">
     <div class="header">
       <NuxtLink to="/" class="logo flex items-center gap-[6.77px] w-max pl-6">
-        <img src="/img/Header_LOGO.svg" alt="logo" class="logo_img" />
+        <img src="~/public/img/Header_LOGO.svg" alt="logo" class="logo_img" />
       </NuxtLink>
       <nav>
         <ul class="navbar" ref="menu_w_sub">
@@ -91,13 +91,13 @@
         class="menu_btn w-[27px] h-[27px] relative mr-[19px]"
       >
         <img
-          src="/img/icons/burger_menu.svg"
+          src="~/public/img/icons/burger_menu.svg"
           alt=""
           class="icon_open"
           :class="{ active: !isMenuActive, noactive: isMenuActive }"
         />
         <img
-          src="/img/icons/Close_x.svg"
+          src="~/public/img/icons/Close_x.svg"
           alt=""
           class="icon_close"
           :class="{ active: isMenuActive, noactive: !isMenuActive }"
@@ -130,7 +130,11 @@
             </NuxtLink>
           </ul>
         </div>
-        <img src="/img/Main_page/submenu_img.png" alt="" class="-z-[1]" />
+        <img
+          src="~/public/img/Main_page/submenu_img.png"
+          alt=""
+          class="-z-[1]"
+        />
       </div>
     </div>
     <div class="burger_menu_container" :class="{ active: isMenuActive }">
@@ -168,7 +172,7 @@
                 v-for="sub in websiteStore.cardInfos.data"
                 :to="{
                   path: `/services/${trimLink(sub.link)}`,
-                  query: { sub: sub.id },
+                  query: { ide: sub.id },
                 }"
                 @click="hideBurgerMenu"
                 class="burger_sub_item"
@@ -216,7 +220,8 @@
             :items="items"
             mode="click"
             class="dropdown"
-            :popper="{ placement: 'right-start' }"
+            :popper="{ placement: 'bottom-start' }"
+            disabled
           >
             <UButton
               color="white"
@@ -326,6 +331,21 @@ const items = [
           websiteStore.locale.languages[1].slug;
         langLabel.value = websiteStore.locale.languages[1].slug;
 
+        try {
+          websiteStore.setAllData();
+          await refreshNuxtData();
+        } catch (error) {
+          console.log("Ошибка при смене языка:", error);
+        }
+      },
+    },
+    {
+      label: websiteStore.locale.languages[2].slug,
+      click: async () => {
+        hideBurgerMenu();
+        websiteStore.locale.currentLanguage =
+          websiteStore.locale.languages[2].slug;
+        langLabel.value = websiteStore.locale.languages[2].slug;
         try {
           websiteStore.setAllData();
           await refreshNuxtData();

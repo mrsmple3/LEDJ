@@ -5,17 +5,17 @@
       <div class="wrapper">
         <main id="main" class="main">
           <img
-            src="/img/Main_page/Main_page_bg.png"
+            src="~/public/img/Main_page/Main_page_bg.png"
             alt=""
             class="main_page_bg"
           />
           <img
-            src="/img/Main_page/Main_page_bg_ellips.svg"
+            src="~/public/img/Main_page/Main_page_bg_ellips.svg"
             alt=""
             class="absolute top-0 left-0 -z-[1]"
           />
           <img
-            src="/img/Main_page/Main_page_bg_ellips_blue.svg"
+            src="~/public/img/Main_page/Main_page_bg_ellips_blue.svg"
             alt=""
             class="w-[587px] h-[587px] absolute -bottom-[30%] right-0 -z-[1] max-md:bottom-0"
           />
@@ -30,10 +30,10 @@
                 Предлагаем комплексные решения для реализации ваших
                 маркетинговых и бизнес-задач
               </p>
-              <div class="flex items-center flex-wrap gap-[34px]">
+              <div class="flex items-center gap-[34px] max-[1160px]:flex-col">
                 <button @click="popup" class="popup_link">
                   <span> Оставить заявку </span>
-                  <img src="/img/icons/btn_arrow_right.svg" alt=">" />
+                  <img src="~/public/img/icons/btn_arrow_right.svg" alt=">" />
                 </button>
                 <div class="flex items-center gap-[34px]">
                   <div class="h-[47px] w-[1px] bg-white opacity-[50%]"></div>
@@ -151,7 +151,10 @@
                     бизнеса.
                   </p>
                 </div>
-                <img src="/img/Main_page/about_card_bg_bottom.png" alt="" />
+                <img
+                  src="~/public/img/Main_page/about_card_bg_bottom.png"
+                  alt=""
+                />
               </div>
               <p v-if="websiteStore.bilboards.pending">Loading ...</p>
               <BilboardsComponent v-else />
@@ -182,22 +185,22 @@
         </div>
         <div id="benefits" class="benefits">
           <img
-            src="/img/Main_page/benefit_top_left_bg.svg"
+            src="~/public/img/Main_page/benefit_top_left_bg.svg"
             alt=""
             class="absolute -top-[80%] left-0 -z-[1] max-md:-top-[55%]"
           />
           <img
-            src="/img/Main_page/benefit_top_rigth_bg.svg"
+            src="~/public/img/Main_page/benefit_top_rigth_bg.svg"
             alt=""
             class="absolute -top-[75%] right-0 -z-[1] max-md:top-0"
           />
           <img
-            src="/img/Main_page/benefits_bg.png"
+            src="~/public/img/Main_page/benefits_bg.png"
             alt=""
             class="bg_animation absolute -bottom-[20%] left-0 -z-[1] max-md:opacity-10 max-md:top-[30%]"
           />
           <!-- <img
-        src="/img/Main_page/benefit_bottom_bg.png"
+        src="~/public/img/Main_page/benefit_bottom_bg.png"
         alt=""
         class="absolute -bottom-[130%] right-[0] -z-[1] md:hidden"
       /> -->
@@ -270,7 +273,7 @@
                   data-wow-delay="0.2s"
                 >
                   <img
-                    src="/img/icons/benfits/1.svg"
+                    src="~/public/img/icons/benfits/1.svg"
                     alt=""
                     class="mb-[44px]"
                   />
@@ -288,7 +291,7 @@
                   data-wow-delay="0.2s"
                 >
                   <img
-                    src="/img/icons/benfits/2.svg"
+                    src="~/public/img/icons/benfits/2.svg"
                     alt=""
                     class="mb-[44px]"
                   />
@@ -306,7 +309,7 @@
                   data-wow-delay="0.2s"
                 >
                   <img
-                    src="/img/icons/benfits/3.svg"
+                    src="~/public/img/icons/benfits/3.svg"
                     alt=""
                     class="mb-[44px]"
                   />
@@ -324,7 +327,7 @@
                   data-wow-delay="0.2s"
                 >
                   <img
-                    src="/img/icons/benfits/1.svg"
+                    src="~/public/img/icons/benfits/1.svg"
                     alt=""
                     class="mb-[44px]"
                   />
@@ -361,7 +364,11 @@
                 индивидуальному подходу.
               </p>
               <div class="trust_bg_block">
-                <img src="/img/Main_page/reviews_bg.png" alt="" class="img" />
+                <img
+                  src="~/public/img/Main_page/reviews_bg.png"
+                  alt=""
+                  class="img"
+                />
               </div>
             </div>
             <p v-if="websiteStore.reviews.pending">Loading...</p>
@@ -371,10 +378,10 @@
               class="reviews_slider_container relative"
             >
               <button class="reviews_btn-prev">
-                <img src="/img/icons/arrow_left_nobg.svg" alt="" />
+                <img src="~/public/img/icons/arrow_left_nobg.svg" alt="" />
               </button>
               <button class="reviews_btn-next">
-                <img src="/img/icons/arrow_right_nobg.svg" alt="" />
+                <img src="~/public/img/icons/arrow_right_nobg.svg" alt="" />
               </button>
               <swiper
                 :slidesPerView="'auto'"
@@ -387,7 +394,6 @@
                   delay: 2500,
                   disableOnInteraction: false,
                 }"
-                height="auto"
                 class="reviews_slider"
               >
                 <swiper-slide
@@ -466,6 +472,29 @@ definePageMeta({
 let isMounted = ref(false);
 
 const websiteStore = useWebsiteStore();
+
+const route = useRoute();
+const router = useRouter();
+
+let serviceName = null;
+
+if (route.query.ide === "services") {
+  router.push({
+    path: `/services`,
+  });
+} else if (route.query.ide) {
+  for (const item of websiteStore.cardInfos.data) {
+    if (item.id === parseInt(route.query.ide)) {
+      serviceName = trimLink(item.link);
+      break; // Прерываем цикл после нахождения соответствующего элемента
+    }
+  }
+  router.push({
+    path: `/services/${serviceName}`,
+    query: { ide: route.query.ide },
+  });
+}
+
 const pagination = {
   clickable: true,
   renderBullet: function (index, className) {
@@ -505,6 +534,15 @@ onMounted(() => {
   }
   isMounted.value = true;
 });
+function trimLink(link) {
+  const baseUrl = "https://ledjmedia.uz/services/";
+  if (link.startsWith(baseUrl)) {
+    return link.substring(baseUrl.length);
+  } else {
+    // Если ссылка не начинается с базового URL, возвращаем исходную ссылку
+    return link;
+  }
+}
 </script>
 <style lang="scss">
 @import "../assets/main.scss";
