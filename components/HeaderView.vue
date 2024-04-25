@@ -11,7 +11,7 @@
             @click="isSubMenuActive = false"
             class="navbar_item"
           >
-            Главная
+            {{ locolizeStore.currentHeader.menu.main }}
           </NuxtLink>
           <NuxtLink
             to="/services"
@@ -21,7 +21,7 @@
             @click="services"
           >
             <div class="flex items-end gap-[3px]">
-              <span>Услуги</span>
+              <span>{{ locolizeStore.currentHeader.menu.services }}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="1em"
@@ -39,35 +39,35 @@
             class="navbar_item"
             @click="isSubMenuActive = false"
           >
-            Об агентсве
+            {{ locolizeStore.currentHeader.menu.about }}
           </NuxtLink>
           <NuxtLink
             :to="{ path: '/', hash: '#benefits' }"
             class="navbar_item"
             @click="isSubMenuActive = false"
           >
-            Преимущества
+            {{ locolizeStore.currentHeader.menu.benefits }}
           </NuxtLink>
           <NuxtLink
             :to="{ path: '/', hash: '#partners' }"
             class="navbar_item"
             @click="isSubMenuActive = false"
           >
-            Партнеры
+            {{ locolizeStore.currentHeader.menu.partners }}
           </NuxtLink>
           <NuxtLink
             :to="{ path: '/', hash: '#reviews' }"
             class="navbar_item"
             @click="isSubMenuActive = false"
           >
-            Отзывы
+            {{ locolizeStore.currentHeader.menu.reviews }}
           </NuxtLink>
           <NuxtLink
             :to="{ path: '/', hash: '#contacts' }"
             class="navbar_item"
             @click="isSubMenuActive = false"
           >
-            Контакты
+            {{ locolizeStore.currentHeader.menu.contacts }}
           </NuxtLink>
         </ul>
       </nav>
@@ -85,7 +85,9 @@
           trailing-icon="i-heroicons-chevron-down-20-solid"
         />
       </UDropdown>
-      <button @click="popup" class="submit_btn mr-2.5">Оставить заявку</button>
+      <button @click="popup" class="submit_btn mr-2.5">
+        {{ locolizeStore.currentHeader.menu.btn }}
+      </button>
       <button
         @click="menuHandler"
         class="menu_btn w-[27px] h-[27px] relative mr-[19px]"
@@ -114,16 +116,18 @@
       <div class="submenu_wrapper">
         <div class="flex flex-col items-start">
           <h3 class="title">
-            Выберите услугу <span class="text-red-600 text-[40px]">•</span>
+            {{ locolizeStore.currentHeader.choose }}
+            <span class="text-red-600 text-[40px]">•</span>
           </h3>
           <ul class="list">
             <NuxtLink
               v-for="sub in websiteStore.cardInfos.data"
               :to="{
-                path: `/services/${trimLink(sub.link)}`,
+                path: `/${trimLink(sub.link)}`,
                 query: { ide: sub.id },
               }"
               class="sub_item"
+              active-class="active"
               @click="isSubMenuActive = false"
             >
               {{ sub.title.rendered }}
@@ -146,13 +150,13 @@
             class="burger_sub_item"
             @click="hideBurgerMenu"
           >
-            Главная
+            {{ locolizeStore.currentHeader.menu.main }}
           </NuxtLink>
           <li
             class="burger_sub_item burgermenu_with_sub relative"
             @click="burgerSubmenuHandle($event)"
           >
-            <span>Услуги</span>
+            <span>{{ locolizeStore.currentHeader.menu.services }}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="1em"
@@ -171,11 +175,12 @@
               <NuxtLink
                 v-for="sub in websiteStore.cardInfos.data"
                 :to="{
-                  path: `/services/${trimLink(sub.link)}`,
+                  path: `/${trimLink(sub.link)}`,
                   query: { ide: sub.id },
                 }"
                 @click="hideBurgerMenu"
                 class="burger_sub_item"
+                active-class="active"
                 >{{ sub.title.rendered }}</NuxtLink
               >
             </div>
@@ -185,42 +190,44 @@
             class="burger_sub_item"
             @click="hideBurgerMenu"
           >
-            Об агентсве
+            {{ locolizeStore.currentHeader.menu.about }}
           </NuxtLink>
           <NuxtLink
             :to="{ path: '/', hash: '#benefits' }"
             class="burger_sub_item"
             @click="hideBurgerMenu"
           >
-            Преимущества
+            {{ locolizeStore.currentHeader.menu.benefits }}
           </NuxtLink>
           <NuxtLink
             :to="{ path: '/', hash: '#partners' }"
             class="burger_sub_item"
             @click="hideBurgerMenu"
           >
-            Партнеры
+            {{ locolizeStore.currentHeader.menu.partners }}
           </NuxtLink>
           <NuxtLink
             :to="{ path: '/', hash: '#reviews' }"
             class="burger_sub_item"
             @click="hideBurgerMenu"
           >
-            Отзывы
+            {{ locolizeStore.currentHeader.menu.reviews }}
           </NuxtLink>
           <NuxtLink
             :to="{ path: '/', hash: '#contacts' }"
             class="burger_sub_item"
             @click="hideBurgerMenu"
           >
-            Контакты
+            {{ locolizeStore.currentHeader.menu.contacts }}
           </NuxtLink>
-          <button @click="popup" class="navbar_item">Оставить заявку</button>
+          <button @click="popup" class="navbar_item">
+            {{ locolizeStore.currentHeader.menu.btn }}
+          </button>
           <UDropdown
             :items="items"
             mode="click"
             class="dropdown"
-            :popper="{ placement: 'bottom-start' }"
+            :popper="{ placement: 'right-start' }"
             disabled
           >
             <UButton
@@ -238,6 +245,9 @@
 
 <script setup>
 const websiteStore = useWebsiteStore();
+const locolizeStore = useLocolizeStore();
+const router = useRouter();
+const route = useRoute();
 
 let isMenuActive = ref(false);
 let isSubMenuActive = ref(false);
@@ -275,7 +285,10 @@ onMounted(() => {
   };
 });
 function trimLink(link) {
-  const baseUrl = "https://ledjmedia.uz/services/";
+  const baseUrl =
+    websiteStore.locale.currentLanguage === "ru"
+      ? "https://ledjmedia.uz/"
+      : `https://ledjmedia.uz/${websiteStore.locale.currentLanguage}/`;
   if (link.startsWith(baseUrl)) {
     return link.substring(baseUrl.length);
   } else {
@@ -316,8 +329,26 @@ const items = [
           websiteStore.locale.languages[0].slug;
         langLabel.value = websiteStore.locale.languages[0].slug;
         try {
+          if (route.query.ide) {
+            const index = websiteStore.cardInfos.data.findIndex(
+              (item) => item.id === parseInt(route.query.ide)
+            );
+            router.push(
+              {
+                path: route.path,
+                force: true,
+                query: {
+                  ide: websiteStore.cardInfos.data[index].translations.ru,
+                },
+              },
+              async () => {
+                await refreshNuxtData();
+              }
+            );
+          }
+          preloaderFunc();
           websiteStore.setAllData();
-          await refreshNuxtData();
+          locolizeStore.setLocolize(websiteStore.locale.currentLanguage);
         } catch (error) {
           console.log("Ошибка при смене языка:", error);
         }
@@ -332,8 +363,26 @@ const items = [
         langLabel.value = websiteStore.locale.languages[1].slug;
 
         try {
+          if (route.query.ide) {
+            const index = websiteStore.cardInfos.data.findIndex(
+              (item) => item.id === parseInt(route.query.ide)
+            );
+            router.push(
+              {
+                path: route.path,
+                force: true,
+                query: {
+                  ide: websiteStore.cardInfos.data[index].translations.uz,
+                },
+              },
+              async () => {
+                await refreshNuxtData();
+              }
+            );
+          }
+          preloaderFunc();
           websiteStore.setAllData();
-          await refreshNuxtData();
+          locolizeStore.setLocolize(websiteStore.locale.currentLanguage);
         } catch (error) {
           console.log("Ошибка при смене языка:", error);
         }
@@ -347,8 +396,26 @@ const items = [
           websiteStore.locale.languages[2].slug;
         langLabel.value = websiteStore.locale.languages[2].slug;
         try {
+          if (route.query.ide) {
+            const index = websiteStore.cardInfos.data.findIndex(
+              (item) => item.id === parseInt(route.query.ide)
+            );
+            router.push(
+              {
+                path: route.path,
+                force: true,
+                query: {
+                  ide: websiteStore.cardInfos.data[index].translations.en,
+                },
+              },
+              async () => {
+                await refreshNuxtData();
+              }
+            );
+          }
+          preloaderFunc();
           websiteStore.setAllData();
-          await refreshNuxtData();
+          locolizeStore.setLocolize(websiteStore.locale.currentLanguage);
         } catch (error) {
           console.log("Ошибка при смене языка:", error);
         }

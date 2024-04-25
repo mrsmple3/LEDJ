@@ -23,22 +23,26 @@
             <div class="content flex flex-col items-start">
               <span class="span_name">LEDJ MEDIA •</span>
               <h1 class="offer_title">
-                Рекламное агентство <br />
-                <span>полного цикла</span>
+                {{ locolizeStore.currentMainPage.offer.title[0] }}<br />
+                <span>{{ locolizeStore.currentMainPage.offer.title[1] }}</span>
               </h1>
               <p class="sub">
-                Предлагаем комплексные решения для реализации ваших
-                маркетинговых и бизнес-задач
+                {{ locolizeStore.currentMainPage.offer.sub }}
               </p>
               <div class="flex items-center gap-[34px] max-[1160px]:flex-col">
                 <button @click="popup" class="popup_link">
-                  <span> Оставить заявку </span>
+                  <span>
+                    {{ locolizeStore.currentMainPage.offer.aplication }}
+                  </span>
                   <img src="~/public/img/icons/btn_arrow_right.svg" alt=">" />
                 </button>
                 <div class="flex items-center gap-[34px]">
                   <div class="h-[47px] w-[1px] bg-white opacity-[50%]"></div>
                   <p class="btn_sub">
-                    На рынке Узбекистана <strong>с 2020 года</strong>
+                    {{ locolizeStore.currentMainPage.offer.span[0] }}
+                    <strong>{{
+                      locolizeStore.currentMainPage.offer.span[1]
+                    }}</strong>
                   </p>
                 </div>
               </div>
@@ -54,45 +58,44 @@
               class="slider"
             >
               <swiper-slide class="slider_slide">
-                <h6 class="title">Индивидуальный подход</h6>
+                <h6 class="title">
+                  {{ locolizeStore.currentMainPage.offer.slider[0].title }}
+                </h6>
                 <img
                   src="~/public/img/Main_page/slider/icon_1.svg"
                   alt=""
                   class="mb-[27px]"
                 />
                 <p class="sub">
-                  Разрабатываем уникальные стратегии для каждого проекта, чтобы
-                  обеспечить максимальную эффективность вашего присутствия в
-                  медиа-пространстве.
+                  {{ locolizeStore.currentMainPage.offer.slider[0].sub }}
                 </p>
                 <span class="number">1</span>
               </swiper-slide>
               <swiper-slide class="slider_slide">
-                <h6 class="title">Экономия времени и ресурсов</h6>
+                <h6 class="title">
+                  {{ locolizeStore.currentMainPage.offer.slider[1].title }}
+                </h6>
                 <img
                   src="~/public/img/Main_page/slider/icon_2.svg"
                   alt=""
                   class="mb-[27px]"
                 />
                 <p class="sub">
-                  Работая с рекламным агентством полного цикла, вы избегаете
-                  необходимости взаимодействия с несколькими поставщиками услуг.
-                  Вы получите все необходимые услуги «‎под одной крышей».
+                  {{ locolizeStore.currentMainPage.offer.slider[1].sub }}
                 </p>
                 <span class="number">2</span>
               </swiper-slide>
               <swiper-slide class="slider_slide">
-                <h6 class="title">Комплексный анализ и оптимизация</h6>
+                <h6 class="title">
+                  {{ locolizeStore.currentMainPage.offer.slider[2].title }}
+                </h6>
                 <img
                   src="~/public/img/Main_page/slider/icon_3.svg"
                   alt=""
                   class="mb-[27px]"
                 />
                 <p class="sub">
-                  Агентство, обладая широким спектром услуг, имеет возможность
-                  проводить комплексный анализ рекламных кампаний и их
-                  эффективности, что позволяет выявлять все сильные и слабые
-                  стороны.
+                  {{ locolizeStore.currentMainPage.offer.slider[2].sub }}
                 </p>
                 <span class="number">3</span>
               </swiper-slide>
@@ -104,12 +107,16 @@
             <div
               class="flex items-start justify-between mb-[82px] max-md:mb-[50px]"
             >
-              <h2 class="title gap-[9px]"><span>01</span> Об агентстве</h2>
+              <h2 class="title gap-[9px]">
+                <span>01</span> {{ locolizeStore.currentMainPage.about.span }}
+              </h2>
               <div class="content flex flex-col items-start">
                 <div
                   class="w-full flex items-center justify-between mb-[62px] max-md:mb-[44px]"
                 >
-                  <h3 class="content_title">Ориентируемся на результат</h3>
+                  <h3 class="content_title">
+                    {{ locolizeStore.currentMainPage.about.title }}
+                  </h3>
                   <div
                     style="
                       width: 18px;
@@ -124,17 +131,11 @@
                   <span class="uppercase text-[#FF2F22] font-semibold"
                     >LEDJ MEDIA</span
                   >
-                  — это рекламное агентство полного цикла, которое нацелено на
-                  достижение результатов. Мы стремимся к тому, чтобы ваша
-                  инвестиция в рекламную кампанию начала приносить прибыль с
-                  самого начала нашего сотрудничества и на всех последующих
-                  этапах. <br /><br />
-                  Создание оригинальных идей для рекламы, разработка эффективных
-                  стратегий и их реализация для успешного продвижения вашего
-                  бизнеса — наша ключевая задача. <br /><br />
-                  Мы видим нашу миссию в том, чтобы помогать вам выделиться на
-                  рынке, привлечь целевую аудиторию и достичь желаемых
-                  результатов в вашем бизнесе.
+                  {{ locolizeStore.currentMainPage.about.description[0]
+                  }}<br /><br />
+                  {{ locolizeStore.currentMainPage.about.description[1]
+                  }}<br /><br />
+                  {{ locolizeStore.currentMainPage.about.description[2] }}
                 </p>
               </div>
             </div>
@@ -144,11 +145,13 @@
               <div class="effective_card">
                 <div class="card_content">
                   <h5 class="card_title">
-                    Эффективные стратегии <span>продвижения</span>
+                    {{ locolizeStore.currentMainPage.about.effective.title[0] }}
+                    <span>{{
+                      locolizeStore.currentMainPage.about.effective.title[1]
+                    }}</span>
                   </h5>
                   <p class="card_sub">
-                    Профессиональные решения для успешного продвижения вашего
-                    бизнеса.
+                    {{ locolizeStore.currentMainPage.about.effective.sub }}
                   </p>
                 </div>
                 <img
@@ -164,8 +167,13 @@
             <div
               class="flex items-center justify-between mb-[50px] max-md:mb-[30px]"
             >
-              <h3 class="content_title">Предоставляемые услуги</h3>
-              <h2 class="title gap-[9px]"><span>02</span> Наши услуги</h2>
+              <h3 class="content_title">
+                {{ locolizeStore.currentMainPage.services.title }}
+              </h3>
+              <h2 class="title gap-[9px]">
+                <span>02</span>
+                {{ locolizeStore.currentMainPage.services.span }}
+              </h2>
             </div>
             <p v-if="websiteStore.cardInfos.pending">Loading ...</p>
             <div v-else class="services_cards mb-[39px]">
@@ -178,7 +186,10 @@
               >
               <div class="line"></div>
               <NuxtLink to="/services" class="all_services_link text-nowrap"
-                >Все услуги →</NuxtLink
+                >{{
+                  locolizeStore.currentMainPage.services.allServices
+                }}
+                →</NuxtLink
               >
             </div>
           </div>
@@ -209,50 +220,28 @@
               class="flex items-start justify-between mb-[96px] max-md:px-5 max-md:mb-[60px]"
             >
               <div class="flex flex-col items-start gap-[17px]">
-                <h2 class="title gap-[9px]"><span>03</span> Преимущества</h2>
+                <h2 class="title gap-[9px]">
+                  <span>03</span>
+                  {{ locolizeStore.currentMainPage.benefits.span }}
+                </h2>
                 <span class="everything_btn">Everything you need</span>
               </div>
               <div class="max-w-[689px] flex flex-col items-start">
                 <h3 class="benefit_title mb-[62px]">
-                  Надежный партнер в сфере рекламы и маркетинга
+                  {{ locolizeStore.currentMainPage.benefits.title }}
                 </h3>
                 <p class="benefit_sub mb-[60px]">
-                  Работая с нами, вы получите единого подрядчика, который
-                  отвечает за все процессы, а не целую вереницу узкопрофильных
-                  агентств.
+                  {{ locolizeStore.currentMainPage.benefits.description }}
                 </p>
                 <div class="benefits_list">
                   <div
+                    v-for="item in locolizeStore.currentMainPage.benefits
+                      .messages"
                     class="benefits_list_item w-[45%] flex items-center gap-[19px]"
                   >
                     <div class="h-[38px] w-1 bg-red-600"></div>
                     <p class="list_sub">
-                      Мы отвечаем всем международным требованиям и стандартам
-                      качества
-                    </p>
-                  </div>
-                  <div
-                    class="benefits_list_item w-[45%] flex items-center gap-[19px]"
-                  >
-                    <div class="h-[38px] w-1 bg-red-600"></div>
-                    <p class="list_sub">
-                      Мы строго придерживаемся всех договоренностей и дедлайнов
-                    </p>
-                  </div>
-                  <div
-                    class="benefits_list_item w-[45%] flex items-center gap-[19px]"
-                  >
-                    <div class="h-[38px] w-1 bg-red-600"></div>
-                    <p class="list_sub">
-                      Наши аккаунт-менеджеры всегда на связи с вами
-                    </p>
-                  </div>
-                  <div
-                    class="benefits_list_item w-[45%] flex items-center gap-[19px]"
-                  >
-                    <div class="h-[38px] w-1 bg-red-600"></div>
-                    <p class="list_sub">
-                      Специальная система скидок для постоянных клиентов
+                      {{ item }}
                     </p>
                   </div>
                 </div>
@@ -268,74 +257,79 @@
                 :loop="true"
                 class="flex items-stretch justify-between gap-[20px]"
               >
-                <swiper-slide
-                  class="benefit_card w-full wow fadeInRight"
-                  data-wow-delay="0.2s"
-                >
+                <swiper-slide class="benefit_card w-full" data-wow-delay="0.2s">
                   <img
                     src="~/public/img/icons/benfits/1.svg"
                     alt=""
                     class="mb-[44px]"
                   />
-                  <div class="flex flex-col items-start gap-[12px]">
-                    <h4 class="benefit_title">Комплексный подход</h4>
+                  <div
+                    class="flex flex-col items-start justify-between gap-[12px]"
+                  >
+                    <h4 class="benefit_title">
+                      {{
+                        locolizeStore.currentMainPage.benefits.cards[0].title
+                      }}
+                    </h4>
                     <p class="benfit_sub">
-                      Полностью погружаемся в ваш бизнес, изучаем его, проводим
-                      полный анализ и подбираем оптимальную стратегию
-                      продвижения.
+                      {{ locolizeStore.currentMainPage.benefits.cards[0].sub }}
                     </p>
                   </div>
                 </swiper-slide>
-                <swiper-slide
-                  class="benefit_card wow fadeInRight"
-                  data-wow-delay="0.2s"
-                >
+                <swiper-slide class="benefit_card" data-wow-delay="0.2s">
                   <img
                     src="~/public/img/icons/benfits/2.svg"
                     alt=""
                     class="mb-[44px]"
                   />
-                  <div class="flex flex-col items-start gap-[12px]">
-                    <h4 class="benefit_title">Команда профессионалов</h4>
+                  <div
+                    class="flex flex-col items-start justify-between gap-[12px]"
+                  >
+                    <h4 class="benefit_title">
+                      {{
+                        locolizeStore.currentMainPage.benefits.cards[1].title
+                      }}
+                    </h4>
                     <p class="benfit_sub">
-                      Мы — команда опытных специалистов со стажем, безупречно
-                      справляющихся со всеми задачами, возложенными на нас в
-                      процессе работы.
+                      {{ locolizeStore.currentMainPage.benefits.cards[1].sub }}
                     </p>
                   </div>
                 </swiper-slide>
-                <swiper-slide
-                  class="benefit_card wow fadeInRight"
-                  data-wow-delay="0.2s"
-                >
+                <swiper-slide class="benefit_card" data-wow-delay="0.2s">
                   <img
                     src="~/public/img/icons/benfits/3.svg"
                     alt=""
                     class="mb-[44px]"
                   />
-                  <div class="flex flex-col items-start gap-[12px]">
-                    <h4 class="benefit_title">Лояльные цены</h4>
+                  <div
+                    class="flex flex-col items-start justify-between gap-[12px]"
+                  >
+                    <h4 class="benefit_title">
+                      {{
+                        locolizeStore.currentMainPage.benefits.cards[2].title
+                      }}
+                    </h4>
                     <p class="benfit_sub">
-                      Мы стремимся предложить вам конкурентоспособные тарифы,
-                      которые соответствуют всем вашим ожиданиям и выделенному
-                      бюджету.
+                      {{ locolizeStore.currentMainPage.benefits.cards[2].sub }}
                     </p>
                   </div>
                 </swiper-slide>
-                <swiper-slide
-                  class="benefit_card wow fadeInRight"
-                  data-wow-delay="0.2s"
-                >
+                <swiper-slide class="benefit_card" data-wow-delay="0.2s">
                   <img
                     src="~/public/img/icons/benfits/1.svg"
                     alt=""
                     class="mb-[44px]"
                   />
-                  <div class="flex flex-col items-start gap-[12px]">
-                    <h4 class="benefit_title">Долгосрочное сотрудничество</h4>
+                  <div
+                    class="flex flex-col items-start justify-between gap-[12px]"
+                  >
+                    <h4 class="benefit_title">
+                      {{
+                        locolizeStore.currentMainPage.benefits.cards[3].title
+                      }}
+                    </h4>
                     <p class="benfit_sub">
-                      Не стремимся к краткосрочной прибыли, наша цель — это
-                      долгосрочное партнерство и совместное развитие.
+                      {{ locolizeStore.currentMainPage.benefits.cards[3].sub }}
                     </p>
                   </div>
                 </swiper-slide>
@@ -350,18 +344,22 @@
             <div
               class="flex justify-between items-center mb-[56px] max-md:mb-[41px]"
             >
-              <h3 class="reviews_title">Отзывы наших клиентов</h3>
-              <h2 class="title gap-[9px]"><span>05</span> Наши клиенты</h2>
+              <h3 class="reviews_title">
+                {{ locolizeStore.currentMainPage.reviews.reviews.title }}
+              </h3>
+              <h2 class="title gap-[9px]">
+                <span>05</span>
+                {{ locolizeStore.currentMainPage.reviews.reviews.span }}
+              </h2>
             </div>
             <div
               class="flex items-center justify-between gap-[80px] mb-[82px] max-md:hidden"
             >
               <p class="reviews_sub">
-                <span class="font-semibold text-[#FF2F22]"
-                  >Мы строим долгосрочные отношения</span
-                >
-                с нашими клиентами, благодаря нашей прозрачной коммуникации и
-                индивидуальному подходу.
+                <span class="font-semibold text-[#FF2F22]">{{
+                  locolizeStore.currentMainPage.reviews.reviews.sub[0]
+                }}</span>
+                {{ locolizeStore.currentMainPage.reviews.reviews.sub[1] }}
               </p>
               <div class="trust_bg_block">
                 <img
@@ -472,6 +470,8 @@ definePageMeta({
 let isMounted = ref(false);
 
 const websiteStore = useWebsiteStore();
+
+const locolizeStore = useLocolizeStore();
 
 const route = useRoute();
 const router = useRouter();

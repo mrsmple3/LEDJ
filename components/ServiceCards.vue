@@ -2,13 +2,15 @@
   <NuxtLink
     v-for="(card, index) in websiteStore.cardInfos.data"
     :key="card.id"
-    :to="{ path: `/services/${trimLink(card.link)}`, query: { ide: card.id } }"
+    :to="{ path: `/${trimLink(card.link)}`, query: { ide: card.id } }"
     class="card"
     :class="{ '!hidden': isMainPage && index > 8 }"
   >
     <div class="w-full flex items-center justify-between gap-[10px] mb-[36px]">
       <div class="flex flex-col items-start gap-[3px]">
-        <span class="card_span">Услуга</span>
+        <span class="card_span">{{
+          locolizeStore.currentHeader.menu.services
+        }}</span>
         <h4 class="card_title">{{ card.title.rendered }}</h4>
       </div>
       <img :src="card.preview" :alt="index" class="card_img" />
@@ -35,7 +37,8 @@
 </template>
 
 <script setup>
-const router = useRouter();
+const locolizeStore = useLocolizeStore();
+
 const props = defineProps({
   isMainPage: {
     type: Boolean,
@@ -43,9 +46,14 @@ const props = defineProps({
     default: true,
   },
 });
+
 const websiteStore = useWebsiteStore();
+
 function trimLink(link) {
-  const baseUrl = "https://ledjmedia.uz/services/";
+  const baseUrl =
+    websiteStore.locale.currentLanguage === "ru"
+      ? "https://ledjmedia.uz/"
+      : `https://ledjmedia.uz/${websiteStore.locale.currentLanguage}/`;
   if (link.startsWith(baseUrl)) {
     return link.substring(baseUrl.length);
   } else {

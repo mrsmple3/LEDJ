@@ -1,18 +1,21 @@
 <template>
   <div v-if="isMounted && !websiteStore.clients.pending" class="trust">
     <div class="flex justify-between items-center mb-[53px] max-md:mb-[44px]">
-      <h3 class="trust_title">Нам доверяют</h3>
-      <h2 class="title gap-[9px]"><span>04</span> Наши клиенты</h2>
+      <h3 class="trust_title">
+        {{ locolizeStore.currentMainPage.reviews.client.title }}
+      </h3>
+      <h2 class="title gap-[9px]">
+        <span>04</span> {{ locolizeStore.currentMainPage.reviews.client.span }}
+      </h2>
     </div>
     <div
       class="flex items-center justify-between gap-[80px] mb-[71px] max-md:mb-[30px]"
     >
       <p class="trust_sub">
-        <span class="font-semibold text-[#FF2F22]"
-          >Обеспечиваем высочайший уровень</span
-        >
-        обслуживания и достижение оптимальных результатов для каждого нашего
-        клиента.
+        <span class="font-semibold text-[#FF2F22]">{{
+          locolizeStore.currentMainPage.reviews.client.sub[0]
+        }}</span>
+        {{ locolizeStore.currentMainPage.reviews.client.sub[1] }}
       </p>
       <div class="trust_bg_block">
         <img src="~/public/img/Main_page/trust_bg.png" alt="" class="img" />
@@ -65,7 +68,7 @@ import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 
 let isMounted = ref(false);
-
+const locolizeStore = useLocolizeStore();
 const client_navigation = {
   nextEl: ".client_btn-next",
   prevEl: ".client_btn-prev",

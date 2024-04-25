@@ -13,8 +13,12 @@
         <div class="sevice_wrapper">
           <div class="service_content">
             <div class="labels flex items-center gap-[10px] flex-wrap">
-              <NuxtLink to="/" class="route_label">Главная</NuxtLink>
-              <NuxtLink to="/services" class="route_label">Услуги</NuxtLink>
+              <NuxtLink to="/" class="route_label">{{
+                locolizeStore.currentHeader.menu.main
+              }}</NuxtLink>
+              <NuxtLink to="/services" class="route_label">{{
+                locolizeStore.currentHeader.menu.services
+              }}</NuxtLink>
               <span class="route_label">{{ card_info.title.rendered }}</span>
             </div>
 
@@ -34,14 +38,17 @@
               <p v-thtml="card_info.content.rendered" class="description"></p>
               <div class="popup">
                 <div class="popup_block">
-                  <h5 class="title">Связаться с нами</h5>
+                  <h5 class="title">
+                    {{ locolizeStore.currentService.contactsUs.title }}
+                  </h5>
                   <p class="sub">
-                    Оставьте заявку, зполнив форму, и мы свяжемся с вами в самое
-                    ближайшее время
+                    {{ locolizeStore.currentService.contactsUs.sub }}
                   </p>
                   <button class="btn" @click="popup">
                     <div class="btn_content">
-                      <span class="text-nowrap">Заказать услугу</span>
+                      <span class="text-nowrap">{{
+                        locolizeStore.currentService.contactsUs.btn
+                      }}</span>
                       <img
                         src="~/public/img/icons/btn_arrow_right_white.svg"
                         alt=">"
@@ -58,8 +65,12 @@
               <div class="flex items-streach gap-6 py-[42px] max-md:pt-[22px]">
                 <div class="h-[54px] w-[1px] bg-[#FF2F22] rounded-[2px]"></div>
                 <div class="flex flex-col gap-[5px] items-start">
-                  <span class="span">Ориентируемся на результат</span>
-                  <p class="title">Выведем ваш бренд на новый уровень</p>
+                  <span class="span">{{
+                    locolizeStore.currentService.add.span
+                  }}</span>
+                  <p class="title">
+                    {{ locolizeStore.currentService.add.title }}
+                  </p>
                 </div>
               </div>
               <img
@@ -113,9 +124,24 @@
                   <img src="~/public/img/icons/greenMarker.png" alt="marker" />
                 </div>
                 <ul class="flex flex-col gap-[16px]">
-                  <li><strong>Адрес:</strong> {{ mapsData.adress }}</li>
-                  <li><strong>Размер:</strong> {{ mapsData.size }}</li>
-                  <li><strong>Стоимость:</strong> {{ mapsData.price }}</li>
+                  <li>
+                    <strong>{{
+                      locolizeStore.currentService.maps.adress
+                    }}</strong>
+                    {{ mapsData.adress }}
+                  </li>
+                  <li>
+                    <strong>{{
+                      locolizeStore.currentService.maps.size
+                    }}</strong>
+                    {{ mapsData.size }}
+                  </li>
+                  <li>
+                    <strong>{{
+                      locolizeStore.currentService.maps.price
+                    }}</strong>
+                    {{ mapsData.price }}
+                  </li>
                 </ul>
               </div>
             </div>
@@ -124,7 +150,9 @@
             <div class="consalting_content">
               <button class="white_span" @click="popup">
                 <div class="flex flex-col items-start gap-5">
-                  <h6 class="title">Бесплатная консультация</h6>
+                  <h6 class="title">
+                    {{ locolizeStore.currentService.free.title }}
+                  </h6>
                   <span class="span">LEDJ MEDIA</span>
                 </div>
                 <img
@@ -168,10 +196,11 @@
             <BilboardsComponent />
             <div class="advertisement">
               <div class="content flex flex-col items-start gap-[10px]">
-                <span class="title">Рекламное продвижение</span>
+                <span class="title">{{
+                  locolizeStore.currentService.card.span
+                }}</span>
                 <p class="sub">
-                  Хорошая реклама формирует культуру общества, воспитывает
-                  хороший вкус и вдохновляет людей
+                  {{ locolizeStore.currentService.card.description }}
                 </p>
               </div>
               <img src="~/public/img/service/card_bg.svg" alt="" />
@@ -190,6 +219,7 @@ import { YandexMap, YandexMarker, YandexCollection } from "vue-yandex-maps";
 definePageMeta({ pageTransition: false });
 
 const websiteStore = useWebsiteStore();
+const locolizeStore = useLocolizeStore();
 const map_s = ref(null);
 let isPopup = ref(false);
 const controls = ["typeSelector"];
@@ -205,11 +235,9 @@ const mapsData = reactive({
 
 let isMounted = ref(false);
 
-const card_name = route.query.ide;
-
 const { data: card_info, pending } = await useLazyFetch(
   () =>
-    `${websiteStore.http}/wp/v2/services/${card_name}?lang=${websiteStore.locale.currentLanguage}`
+    `${websiteStore.http}/wp/v2/services/${route.query.ide}?lang=${websiteStore.locale.currentLanguage}`
 );
 
 onMounted(async () => {
@@ -221,13 +249,11 @@ const togglePopup = (e, data) => {
   map_s.value.forEach((element) => {
     element.options.set("preset", "islands#redCircleIcon");
   });
-
   if (isPopup.value === false) {
     isPopup.value = true;
     e.get("target").options.set("preset", "islands#greenCircleIcon");
   } else if (mapsData.id !== data.id) {
     isPopup.value = true;
-
     e.get("target").options.set("preset", "islands#greenCircleIcon");
   } else {
     isPopup.value = false;

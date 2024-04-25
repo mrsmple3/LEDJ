@@ -5,13 +5,12 @@
         class="flex items-start justify-between flex-wrap gap-[74px] mb-[62px]"
       >
         <div class="footer_contact flex flex-col items-start">
-          <h2>Контакты</h2>
+          <h2>{{ locolizeStore.currentMainPage.footer.title }}</h2>
           <p class="sub">
-            <span>Возникли вопросы?</span> <br /><br />Оставьте заявку, заполнив
-            форму, либо позвоните по указанным контактам и мы проконсультируем
-            вас по интересующим вопросам, предоставим полную информацию о наших
-            услугах и ценах.
+            <span>{{ locolizeStore.currentMainPage.footer.question }}</span>
+            <br /><br />{{ locolizeStore.currentMainPage.footer.sub }}
           </p>
+
           <div class="phones flex flex-col items-start">
             <a :href="'tel:' + websiteStore.footer.data.phone1">{{
               websiteStore.footer.data.phone1
@@ -26,25 +25,27 @@
               ><strong>E-mail: </strong>{{ websiteStore.footer.data.email }}</a
             >
             <span
-              ><strong>Адрес: </strong
+              ><strong>{{ locolizeStore.currentMainPage.footer.adress }}</strong
               >{{ websiteStore.footer.data.address }}</span
             >
           </div>
         </div>
         <div class="footer_form flex flex-col items-start mt-[9px]">
-          <h5>Форма обратной связи</h5>
+          <h5>{{ locolizeStore.currentMainPage.footer.form.title }}</h5>
           <form class="w-full flex flex-col items-start gap-[29px] mb-[43px]">
             <div class="w-full flex flex-col gap-1">
               <input
                 type="text"
                 class="name_input"
                 v-model="state.formName"
-                placeholder="Ваше имя"
+                :placeholder="
+                  locolizeStore.currentMainPage.footer.form.inputName.input
+                "
                 @change="v$.formName.$touch"
               />
-              <span v-if="v$.formName.$error" class="text-red-600 error_span"
-                >Введите Имя</span
-              >
+              <span v-if="v$.formName.$error" class="text-red-600 error_span">{{
+                locolizeStore.currentMainPage.footer.form.inputName.span
+              }}</span>
             </div>
             <div class="w-full flex flex-col gap-1">
               <input
@@ -53,11 +54,17 @@
                 v-model="state.formPhone"
                 v-maska
                 data-maska="+998 (##) ### ## ##"
-                placeholder="Номер телефона"
+                :placeholder="
+                  locolizeStore.currentMainPage.footer.form.inputPhone.input
+                "
                 @change="v$.formPhone.$touch"
               />
-              <span v-if="v$.formPhone.$error" class="text-red-600 error_span"
-                >Введите Номер телефона</span
+              <span
+                v-if="v$.formPhone.$error"
+                class="text-red-600 error_span"
+                >{{
+                  locolizeStore.currentMainPage.footer.form.inputPhone.span
+                }}</span
               >
             </div>
             <div class="w-full flex flex-col gap-1">
@@ -65,7 +72,9 @@
                 type="text"
                 class="company_input"
                 v-model="state.formCompany"
-                placeholder="Компания"
+                :placeholder="
+                  locolizeStore.currentMainPage.footer.form.inputCompany
+                "
               />
             </div>
             <div class="w-full flex flex-col gap-1 mb-[14px]">
@@ -73,7 +82,9 @@
                 type="text"
                 class="comment_input"
                 v-model="state.formComment"
-                placeholder="Комментарий"
+                :placeholder="
+                  locolizeStore.currentMainPage.footer.form.inputComment
+                "
               ></textarea>
             </div>
             <div class="flex items-center justify-between flex-wrap gap-[22px]">
@@ -83,7 +94,9 @@
                 class="form_btn"
                 :class="{ 'bg-green': isPosted }"
               >
-                <span>Отправить</span>
+                <span>{{
+                  locolizeStore.currentMainPage.footer.form.btnSend
+                }}</span>
                 <img
                   v-if="isPosted"
                   src="~/public/img/galochka.gif"
@@ -92,8 +105,7 @@
                 />
               </button>
               <p class="form_title">
-                Отправляя данную форму, вы соглашаетесь на обработку
-                персональных данных.
+                {{ locolizeStore.currentMainPage.footer.form.btnSub }}
               </p>
             </div>
           </form>
@@ -109,9 +121,9 @@
       <div
         class="w-full flex items-center justify-between max-md:flex-col max-md:item-center max-md:justify-start"
       >
-        <span class="copy_right max-md:mb-[37px]"
-          >© LEDJ MEIDA 2024. Все права защищены.</span
-        >
+        <span class="copy_right max-md:mb-[37px]">{{
+          locolizeStore.currentMainPage.footer.form.copyRight
+        }}</span>
         <div
           v-if="
             websiteStore.footer.data.telegram ||
@@ -140,7 +152,9 @@
         </div>
         <div class="flex items-center gap-[5px]">
           <img src="~/public/img/icons/light.svg" alt="light" />
-          <a href="https://icorp.uz/">Разработано iCORP</a>
+          <a href="https://icorp.uz/">{{
+            locolizeStore.currentMainPage.footer.form.icorp
+          }}</a>
         </div>
       </div>
     </div>
@@ -162,6 +176,7 @@ import { required, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 
 const websiteStore = useWebsiteStore();
+const locolizeStore = useLocolizeStore();
 const route = useRoute();
 const state = reactive({
   formName: "",

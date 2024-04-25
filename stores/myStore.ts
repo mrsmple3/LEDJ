@@ -80,7 +80,7 @@ export const useWebsiteStore = defineStore("websiteStore", {
     },
     async setFooterInfo() {
       const { data: info, pending: pendingFooter } = await useFetch<any>(
-        `${this.http}/options/all`
+        `${this.http}/options/all?lang=${this.locale.currentLanguage}`
       );
       this.footer.data = info.value;
       this.footer.pending = pendingFooter as any;
@@ -122,7 +122,7 @@ export const useWebsiteStore = defineStore("websiteStore", {
       this.map.pending = pending.value as any;
     },
     async setAllData() {
-      this.setLocale();
+      this.setLocale(this.locale.currentLanguage);
       this.setCardInfos();
       this.setBilboards();
       this.setClients();

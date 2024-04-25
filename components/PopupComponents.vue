@@ -13,22 +13,23 @@
         class="absolute w-7 h-7 top-5 right-[22px] z-[2] cursor-pointer"
       />
       <form class="px-[45px] mb-[26px]" @submit.prevent="submitHandler">
-        <h3>Оставить заявку</h3>
+        <h3>{{ locolizeStore.currentMainPage.popup.title }}</h3>
         <span v-if="websiteStore.popup.title" class="form_sub"
-          >Услуга: <strong>{{ websiteStore.popup.title }}</strong></span
+          >{{ locolizeStore.currentHeader.menu.services }}
+          <strong>{{ websiteStore.popup.title }}</strong></span
         >
         <div class="w-full flex flex-col gap-1 mb-[18px]">
           <input
             type="text"
             name="name"
             v-model="state.formName"
-            placeholder="Ваше имя"
+            :placeholder="locolizeStore.currentMainPage.popup.inputName.input"
             class="name_input outline-none"
           />
           <span
             v-if="v$.formName.$error"
             class="text-red-600 error_span ml-[10px]"
-            >Введите Имя</span
+            >{{ locolizeStore.currentMainPage.popup.inputName.span }}</span
           >
         </div>
         <div class="w-full flex flex-col gap-1 mb-[18px]">
@@ -38,18 +39,18 @@
             v-model="state.formPhone"
             v-maska
             data-maska="+998 (##) ### ## ##"
-            placeholder="Номер телефоона"
+            :placeholder="locolizeStore.currentMainPage.popup.inputPhone.input"
             class="phone_input outline-none"
           />
           <span
             v-if="v$.formPhone.$error"
             class="text-red-600 error_span ml-[10px]"
-            >Введите Номер телефона</span
+            >{{ locolizeStore.currentMainPage.popup.inputPhone.span }}</span
           >
         </div>
 
         <button type="submit" class="submit_btn w-full py-[13px]">
-          <span>Отправить</span
+          <span>{{ locolizeStore.currentMainPage.popup.btnSend }}</span
           ><img
             v-if="isPosted"
             src="~/public/img/galochka.gif"
@@ -60,8 +61,7 @@
       </form>
       <div class="flex flex-col items-center gap-[25px] px-[45px]">
         <p class="popup_sub">
-          Отправляя данную форму, вы соглашаетесь на обработку персональных
-          данных.
+          {{ locolizeStore.currentMainPage.popup.btnSpan }}
         </p>
         <div
           class="phone flex items-center gap-3 max-md:flex-wrap max-md:flex-col"
@@ -79,6 +79,7 @@
 import { required, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 const websiteStore = useWebsiteStore();
+const locolizeStore = useLocolizeStore();
 const route = useRoute();
 const state = reactive({
   formName: "",
